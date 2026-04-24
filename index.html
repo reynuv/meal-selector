@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>üçΩÔ∏è Meal Selector</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --pri:    #C4473A;
+    --pri-d:  #A03228;
+    --pri-l:  #FFE8E6;
+    --bg:     #F7F3EF;
+    --card:   #FFFFFF;
+    --text:   #1C1C1E;
+    --muted:  #6B6B6B;
+    --border: #E5E0DA;
+    --ok:     #16A34A;
+    --ok-l:   #DCFCE7;
+    --r:      16px;
+    --rs:     10px;
+    --sh:     0 2px 12px rgba(0,0,0,0.07);
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  #root { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg); }
+
+  /* ‚îÄ‚îÄ Loader ‚îÄ‚îÄ */
+  .loader { display:flex; align-items:center; justify-content:center; height:80vh; }
+  .spin {
+    width:36px; height:36px;
+    border:3px solid var(--border); border-top-color:var(--pri);
+    border-radius:50%; animation:sp .7s linear infinite;
+  }
+  @keyframes sp { to { transform:rotate(360deg); } }
+
+  /* ‚îÄ‚îÄ Header ‚îÄ‚îÄ */
+  .hdr {
+    background:#fff; padding:14px 20px 12px;
+    border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:20;
+  }
+  .hdr-brand { font-size:11px; font-weight:600; letter-spacing:1.4px; text-transform:uppercase; color:var(--muted); }
+  .hdr-title { font-size:20px; font-weight:800; }
+  .hdr-back {
+    background:none; border:none; cursor:pointer; padding:0;
+    font-size:14px; font-weight:500; color:var(--pri);
+    display:flex; align-items:center; gap:4px; margin-bottom:6px;
+  }
+
+  /* ‚îÄ‚îÄ Main ‚îÄ‚îÄ */
+  .main { padding:20px; }
+
+  /* ‚îÄ‚îÄ Buttons ‚îÄ‚îÄ */
+  .btn {
+    display:block; width:100%; padding:14px 20px;
+    border-radius:var(--rs); border:none;
+    font-size:15px; font-weight:700; cursor:pointer;
+    transition:all .15s; text-align:center;
+  }
+  .btn-pri { background:var(--pri); color:#fff; }
+  .btn-pri:hover:not(:disabled) { background:var(--pri-d); }
+  .btn-pri:disabled { background:#D1D5DB; cursor:not-allowed; }
+  .btn-out { background:#fff; border:1.5px solid var(--border); color:var(--text); }
+  .btn-out:hover { border-color:var(--pri); color:var(--pri); }
+  .row { display:flex; gap:10px; }
+  .row .back-sm {
+    flex:0 0 auto; padding:14px 18px; background:#fff;
+    border:1.5px solid var(--border); border-radius:var(--rs); cursor:pointer; font-size:15px;
+  }
+  .row .btn { flex:1; }
+
+  /* ‚îÄ‚îÄ Landing ‚îÄ‚îÄ */
+  .hero { text-align:center; padding:40px 20px 24px; }
+  .hero .em { font-size:52px; display:block; margin-bottom:12px; }
+  .hero h1 { font-size:26px; font-weight:800; margin-bottom:8px; }
+  .hero p { font-size:15px; color:var(--muted); line-height:1.5; }
+
+  .divider {
+    display:flex; align-items:center; gap:12px;
+    margin:20px 0; color:var(--muted); font-size:13px;
+  }
+  .divider::before,.divider::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .join-row { display:flex; gap:8px; margin-top:16px; }
+  .join-in {
+    flex:1; padding:12px 14px; font-size:16px;
+    border:1.5px solid var(--border); border-radius:var(--rs);
+    text-transform:uppercase; letter-spacing:2px; font-weight:700; outline:none;
+  }
+  .join-in:focus { border-color:var(--pri); }
+  .join-go {
+    padding:12px 18px; background:var(--pri); color:#fff;
+    border:none; border-radius:var(--rs); font-size:14px; font-weight:700; cursor:pointer;
+  }
+  .join-go:disabled { background:#D1D5DB; cursor:not-allowed; }
+
+  /* ‚îÄ‚îÄ Session screen ‚îÄ‚îÄ */
+  .code-bar {
+    background:#fff; border:1.5px solid var(--border);
+    border-radius:var(--rs); padding:12px 16px;
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;
+  }
+  .code-lbl { font-size:11px; color:var(--muted); margin-bottom:2px; }
+  .code-val { font-size:22px; font-weight:900; letter-spacing:4px; color:var(--pri); }
+  .copy-btn {
+    padding:7px 14px; background:var(--pri-l); color:var(--pri);
+    border:none; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;
+  }
+
+  .pgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+  .pcard {
+    background:#fff; border:2px solid var(--border); border-radius:var(--r);
+    padding:16px 12px; text-align:center; cursor:pointer;
+    transition:all .15s; box-shadow:var(--sh); position:relative;
+  }
+  .pcard:hover:not(.locked) { border-color:var(--pri); transform:translateY(-1px); }
+  .pcard.done  { border-color:var(--ok); }
+  .pcard.mine  { border-color:var(--pri); }
+  .pcard.locked { cursor:default; opacity:.65; }
+
+  .pav {
+    width:48px; height:48px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; font-weight:900; color:#fff; margin:0 auto 10px;
+  }
+  .pname { font-size:14px; font-weight:700; margin-bottom:4px; }
+  .psub  { font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .pbadge {
+    display:inline-block; padding:3px 10px;
+    border-radius:20px; font-size:11px; font-weight:700;
+  }
+  .bp { background:#F3F4F6; color:var(--muted); }
+  .bd { background:var(--ok-l); color:var(--ok); }
+  .bm { background:var(--pri-l); color:var(--pri); }
+  .you-tag {
+    position:absolute; top:8px; right:10px;
+    font-size:11px; background:var(--pri); color:#fff;
+    padding:2px 7px; border-radius:10px; font-weight:700;
+  }
+
+  .prog-wrap { margin-bottom:16px; }
+  .prog-lbl { font-size:13px; color:var(--muted); margin-bottom:6px; }
+  .prog-bar { height:4px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .prog-fill { height:100%; background:var(--pri); border-radius:4px; transition:width .4s; }
+
+  /* ‚îÄ‚îÄ WhatsApp button ‚îÄ‚îÄ */
+  .wa-btn {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:14px; background:#25D366; color:#fff;
+    border:none; border-radius:var(--rs); font-size:15px; font-weight:700;
+    cursor:pointer; transition:background .15s; margin-bottom:12px;
+  }
+  .wa-btn:hover { background:#1DA856; }
+
+  /* ‚îÄ‚îÄ Meal type ‚îÄ‚îÄ */
+  .mtgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+  .mtcard {
+    background:#fff; border:2px solid var(--border); border-radius:var(--r);
+    padding:20px 12px; text-align:center; cursor:pointer;
+    transition:all .15s; box-shadow:var(--sh);
+  }
+  .mtcard:hover { transform:translateY(-2px); }
+  .mtcard.sel { border-width:2.5px; }
+  .mtem { font-size:38px; display:block; margin-bottom:8px; }
+  .mtnm { font-size:13px; font-weight:700; }
+
+  /* ‚îÄ‚îÄ Section card ‚îÄ‚îÄ */
+  .scard {
+    background:#fff; border-radius:var(--r); padding:18px;
+    box-shadow:var(--sh); margin-bottom:14px;
+    border:1.5px solid transparent; transition:border-color .2s;
+  }
+  .scard.ok { border-color:var(--ok); }
+  .slbl { font-size:15px; font-weight:700; margin-bottom:3px; display:flex; align-items:center; justify-content:space-between; }
+  .slbl .chk { color:var(--ok); font-size:16px; }
+  .shint { font-size:12px; color:var(--muted); margin-bottom:12px; }
+  .shint .cnt { font-weight:800; }
+
+  .glbl {
+    font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.8px; color:var(--muted); margin:12px 0 8px;
+  }
+  .ilist { display:flex; flex-direction:column; gap:6px; }
+
+  .ibtn {
+    padding:10px 14px; border:1.5px solid var(--border); border-radius:var(--rs);
+    background:#fff; font-size:14px; text-align:left; cursor:pointer;
+    display:flex; align-items:center; justify-content:space-between;
+    transition:all .12s; color:var(--text);
+  }
+  .ibtn:hover:not(:disabled) { border-color:var(--pri); background:var(--pri-l); }
+  .ibtn.ss { border-color:var(--pri); background:var(--pri-l); font-weight:700; }
+  .ibtn.ss::after { content:'‚úì'; color:var(--pri); font-weight:900; }
+  .ibtn.sm { border-color:var(--ok); background:var(--ok-l); font-weight:700; }
+  .ibtn.sm::after { content:'‚úì'; color:var(--ok); font-weight:900; }
+  .ibtn:disabled:not(.sm) { opacity:.3; cursor:not-allowed; }
+
+  .fchips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .fchip { padding:4px 10px; background:#F3F4F6; border-radius:20px; font-size:12px; color:var(--muted); }
+
+  /* ‚îÄ‚îÄ Name input ‚îÄ‚îÄ */
+  .nin {
+    width:100%; padding:14px 16px; font-size:16px;
+    border:2px solid var(--border); border-radius:var(--rs);
+    outline:none; transition:border-color .2s; margin-bottom:20px;
+  }
+  .nin:focus { border-color:var(--pri); }
+  .helper { font-size:14px; color:var(--muted); margin-bottom:20px; line-height:1.5; }
+
+  /* ‚îÄ‚îÄ Order meta bar ‚îÄ‚îÄ */
+  .ometa {
+    display:flex; align-items:center; gap:12px;
+    padding:14px 18px; border-radius:var(--rs);
+    color:#fff; margin-bottom:20px;
+  }
+  .ometa-em { font-size:28px; }
+  .ometa-name { font-size:16px; font-weight:800; }
+  .ometa-meal { font-size:12px; opacity:.85; }
+
+  /* ‚îÄ‚îÄ Review ‚îÄ‚îÄ */
+  .rrow {
+    background:#fff; border-radius:var(--rs);
+    padding:12px 16px; margin-bottom:8px; box-shadow:var(--sh);
+  }
+  .rlbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.7px; color:var(--muted); margin-bottom:4px; }
+  .rval { font-size:15px; font-weight:600; }
+  .rfixed { font-size:13px; color:var(--muted); }
+
+  /* ‚îÄ‚îÄ Summary ‚îÄ‚îÄ */
+  .sum-card { background:#fff; border-radius:var(--r); overflow:hidden; box-shadow:var(--sh); margin-bottom:16px; }
+  .sum-hdr { padding:14px 18px; color:#fff; display:flex; align-items:center; gap:12px; }
+  .sum-av {
+    width:40px; height:40px; border-radius:50%;
+    background:rgba(255,255,255,.25);
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:900; flex-shrink:0;
+  }
+  .sum-pname { font-size:16px; font-weight:800; }
+  .sum-mname { font-size:12px; opacity:.85; margin-top:1px; }
+  .sum-body { padding:14px 18px; }
+  .srow {
+    display:flex; justify-content:space-between;
+    padding:7px 0; border-bottom:1px solid #F5F0EB; font-size:14px;
+  }
+  .srow:last-child { border-bottom:none; }
+  .sl { color:var(--muted); font-size:12px; flex-shrink:0; max-width:38%; line-height:1.3; }
+  .sv { font-weight:600; text-align:right; max-width:60%; }
+
+  /* ‚îÄ‚îÄ Toast ‚îÄ‚îÄ */
+  .toast {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background:#1C1C1E; color:#fff; padding:10px 22px;
+    border-radius:20px; font-size:14px; font-weight:600; z-index:999;
+    animation:tin .2s ease;
+  }
+  @keyframes tin { from { opacity:0; transform:translateX(-50%) translateY(8px); } }
+
+  /* ‚îÄ‚îÄ Setup guide ‚îÄ‚îÄ */
+  .sstep { background:#fff; border-radius:var(--r); padding:18px; margin-bottom:12px; box-shadow:var(--sh); }
+  .sstep-num {
+    width:28px; height:28px; border-radius:50%; background:var(--pri); color:#fff;
+    font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:10px;
+  }
+  .sstep h3 { font-size:15px; font-weight:800; margin-bottom:6px; }
+  .sstep p, .sstep li { font-size:13px; color:var(--muted); line-height:1.65; }
+  .sstep code { background:#F3F4F6; padding:2px 6px; border-radius:4px; font-size:12px; font-family:monospace; }
+  .sstep ul { padding-left:16px; margin-top:4px; }
+  .sstep pre {
+    background:#1C1C1E; color:#A8FF78; padding:12px; border-radius:8px;
+    font-size:11.5px; margin-top:8px; overflow-x:auto;
+    font-family:monospace; line-height:1.6; white-space:pre-wrap;
+  }
+
+  /* ‚îÄ‚îÄ Tabs ‚îÄ‚îÄ */
+  .tabs { display:flex; gap:6px; margin-bottom:18px; }
+  .tab {
+    flex:1; padding:10px; border-radius:var(--rs);
+    border:1.5px solid var(--border); background:#fff;
+    font-size:13px; font-weight:700; cursor:pointer; transition:all .15s;
+    color:var(--muted);
+  }
+  .tab.active { background:var(--pri); color:#fff; border-color:var(--pri); }
+
+  /* ‚îÄ‚îÄ Consolidated cook view ‚îÄ‚îÄ */
+  .cgroup { background:#fff; border-radius:var(--r); box-shadow:var(--sh); margin-bottom:14px; overflow:hidden; }
+  .cgroup-hdr {
+    padding:12px 16px; display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid var(--border);
+  }
+  .cgroup-label { font-size:15px; font-weight:800; }
+  .cgroup-count {
+    font-size:11px; font-weight:700; padding:3px 9px;
+    background:var(--pri-l); color:var(--pri); border-radius:20px;
+  }
+  .citem {
+    display:flex; align-items:flex-start; justify-content:space-between;
+    padding:10px 16px; border-bottom:1px solid #F5F0EB; gap:10px;
+  }
+  .citem:last-child { border-bottom:none; }
+  .citem-dish { font-size:14px; font-weight:600; flex:1; }
+  .citem-right { text-align:right; flex-shrink:0; }
+  .citem-count {
+    display:inline-block; font-size:12px; font-weight:800;
+    background:var(--pri); color:#fff;
+    padding:2px 8px; border-radius:10px; margin-bottom:3px;
+  }
+  .citem-who { font-size:11px; color:var(--muted); }
+
+  @media print {
+    .np { display:none !important; }
+    .cgroup { page-break-inside:avoid; }
+    .sum-card { page-break-inside:avoid; }
+    body { background:white; }
+    #root { max-width:100%; }
+  }
+  </style>
+</head>
+<body>
+<div id="root"><div class="loader"><div class="spin"></div></div></div>
+
+<script type="text/babel">
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  STEP 1 ‚ñ∏ Paste your Firebase config here (free account at firebase.google.com)
+//  Then host this file on Netlify Drop (netlify.com/drop) and share the URL
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyA1F-5X1EkUMHIxKFcdQF8YylwPHM4_p3Y",
+  authDomain:        "sage-villa-meals.firebaseapp.com",
+  databaseURL:       "https://sage-villa-meals-default-rtdb.firebaseio.com",
+  projectId:         "sage-villa-meals",
+  storageBucket:     "sage-villa-meals.firebasestorage.app",
+  messagingSenderId: "678788740654",
+  appId:             "1:678788740654:web:f423215b5938ea2afb11bf"
+};
+
+const NEEDS_SETUP = FIREBASE_CONFIG.databaseURL.includes("YOUR_PROJECT");
+let db = null;
+if (!NEEDS_SETUP) {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  db = firebase.database();
+}
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  MENU DATA
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+const MM = {
+  indian:      { name:"Indian Meal",      emoji:"üçõ", color:"#C4543A" },
+  chinese:     { name:"Chinese Meal",     emoji:"ü•¢", color:"#B82535" },
+  continental: { name:"Continental Meal", emoji:"üåç", color:"#2A5FA5" },
+  barbeque:    { name:"Barbeque",         emoji:"üî•", color:"#B55E1A" },
+};
+
+const MENU = {
+  indian: {
+    sections: [
+      { id:"paneer",      label:"Veg Main ‚Äî Paneer",        hint:"Choose any 1",                   type:"single",
+        items:["Palak Paneer","Matar Paneer","Paneer Makhani","Paneer Lababdar","Paneer Masala","Paneer Bhurji","Kadhai Paneer"] },
+      { id:"second_main", label:"Second Main Course",        hint:"Choose any 1 ‚Äî Veg or Non-Veg",  type:"single",
+        groups:[
+          { label:"ü•ó Veg Options",     items:["Sabzi Kolhapuri","Chana Masala","Baingan Bharta","Gobi Matar","Bharleli Vaangi","Cabbage Foogath","French Bean Thoran","Aloo Jeera","Zunka","Soyabean Matar"] },
+          { label:"üçó Non-Veg Options", items:["Angari Chicken Curry","Butter Chicken","Chicken Sukha","Chicken Sagoti","Malvani Chicken","Chicken Lapeta","Chicken Masala","Methi Murgh","Lababdar Chicken"] },
+        ]},
+      { id:"bread",   label:"Bread",   hint:"Choose any 1", type:"single", items:["Tawa Phulka","Chapati","Bhakri"] },
+      { id:"dal",     label:"Dal",     hint:"Choose any 1", type:"single", items:["Rajma Masala","Tadka Dal","Kadhi Pakodi","Varan","Amti"] },
+      { id:"rice",    label:"Rice",    hint:"Choose any 1", type:"single", items:["Jeera Rice","Steamed Rice","Peas Pulao"] },
+      { id:"dessert", label:"Dessert", hint:"Choose any 1", type:"single", items:["Gulab Jamun","Seviyan Kheer","Rice Kheer","Dudhi Halwa","Gajar Halwa","Fruit Custard"] },
+    ],
+    fixed:["Papad","Pickle","Salad"],
+  },
+  chinese: {
+    sections: [
+      { id:"soup",       label:"Soup",                      hint:"Choose any 1", type:"single", items:["Manchow Soup","Hot & Sour Soup","Sweet Corn Soup"] },
+      { id:"starter",    label:"Starter",                   hint:"Choose any 1", type:"single", items:["Crispy Chilli Potato","Veg Crispy","Corn Salt Pepper","Kung Pao Potato","Honey Chilli Potato"] },
+      { id:"veg_carb",   label:"Veg Rice or Noodles",       hint:"Choose any 1", type:"single", items:["Fried Rice","Veg Hakka Noodles"] },
+      { id:"nveg_carb",  label:"Non-Veg Rice or Noodles",   hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Fried Rice","Chicken Hakka Noodles"] },
+      { id:"main", label:"Main Course", hint:"Choose any 1", type:"single",
+        groups:[
+          { label:"ü•ó Veg",     items:["Veg Manchurian Gravy","Paneer in Hot Garlic Sauce","Paneer Chilli Gravy","Stir-Fried Vegetables"] },
+          { label:"üçó Non-Veg", items:["Chicken Manchurian Gravy","Chicken in Hot Garlic Sauce","Chicken Chilli Gravy","Chicken in Butter Garlic Sauce"] },
+        ]},
+    ],
+  },
+  continental: {
+    sections: [
+      { id:"soup",       label:"Soup",                hint:"Choose any 1", type:"single", items:["Tomato Basil Soup","Cream of Mushroom Soup","Cream of Veg Soup","Veg Clear Soup"] },
+      { id:"starter",    label:"Starter",             hint:"Choose any 1", type:"single", items:["Cheese Corn Balls","Fried Onion Rings"] },
+      { id:"veg_main",   label:"Veg Main Course",     hint:"Choose any 1", type:"single", items:["Veg Au Gratin","Mushroom Stroganoff"] },
+      { id:"nveg_main",  label:"Non-Veg Main Course", hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Stroganoff","Grilled Chicken with Pan Jus"] },
+      { id:"dessert",    label:"Dessert",             hint:"Choose any 1", type:"single", items:["Banoffee Pie","Fruit Custard"] },
+    ],
+  },
+  barbeque: {
+    sections: [
+      { id:"type",       label:"Your Preference", hint:"Fixed main item",                    type:"single", items:["Veg (Paneer)","Non-Veg (Chicken)"] },
+      { id:"marination", label:"Marination",      hint:"Choose any 1",                       type:"single", items:["Tikka","Hariyali","Reshmi"] },
+      { id:"sides",      label:"BBQ Sides",       hint:"Choose exactly 3  (‚Çπ100 extra each)", type:"multi3", items:["Mushroom","Baby Potato","Capsicum","Onion","Cauliflower","Corn on the Cob"] },
+    ],
+    fixed:["Salad","Chutney"],
+  },
+};
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  HELPERS
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+const PAX_COLORS = ["#E07B54","#5A8FE0","#5AB87A","#C4843A"];
+const genCode    = () => Math.random().toString(36).slice(2,8).toUpperCase();
+const initials   = s => (s||"").trim().split(" ").filter(Boolean).map(w=>w[0].toUpperCase()).join("").slice(0,2)||"?";
+
+const isComplete = (mealType, sel) => {
+  if (!mealType || !sel) return false;
+  return MENU[mealType].sections.every(s => {
+    if (s.optional) return true;
+    const v = sel[s.id];
+    return s.type === "multi3" ? Array.isArray(v) && v.length === 3 : !!v;
+  });
+};
+
+// Groups all 4 people's selections by course category, deduplicates with counts
+function buildConsolidatedOrder(data) {
+  const people = data?.people
+    ? Object.values(data.people).filter(p => p.confirmed && p.mealType)
+    : [];
+
+  const GROUPS = [
+    { id:"soups",    label:"ü•£ Soups",         sources:[{mt:"chinese",s:"soup"},{mt:"continental",s:"soup"}] },
+    { id:"starters", label:"üç¢ Starters",       sources:[{mt:"chinese",s:"starter"},{mt:"continental",s:"starter"}] },
+    { id:"main",     label:"üçõ Main Course",    sources:[{mt:"indian",s:"paneer"},{mt:"indian",s:"second_main"},{mt:"chinese",s:"main"},{mt:"continental",s:"veg_main"},{mt:"continental",s:"nveg_main"}] },
+    { id:"bread",    label:"ü´ì Breads",          sources:[{mt:"indian",s:"bread"}] },
+    { id:"dal",      label:"ü´ï Dal",             sources:[{mt:"indian",s:"dal"}] },
+    { id:"rice",     label:"üçö Rice & Noodles", sources:[{mt:"indian",s:"rice"},{mt:"chinese",s:"veg_carb"},{mt:"chinese",s:"nveg_carb"}] },
+    { id:"dessert",  label:"üçÆ Desserts",        sources:[{mt:"indian",s:"dessert"},{mt:"continental",s:"dessert"}] },
+    { id:"bbq",      label:"üî• Barbeque",        sources:[{mt:"barbeque",s:"type"},{mt:"barbeque",s:"marination"},{mt:"barbeque",s:"sides"}] },
+  ];
+
+  return GROUPS.map(group => {
+    const itemMap = {};
+    people.forEach(person => {
+      group.sources.forEach(src => {
+        if (person.mealType !== src.mt) return;
+        const val = person.selections?.[src.s];
+        if (!val) return;
+        const items = Array.isArray(val) ? val : [val];
+        items.forEach(item => {
+          if (!itemMap[item]) itemMap[item] = [];
+          itemMap[item].push(person.name);
+        });
+      });
+    });
+    return {
+      ...group,
+      items: Object.entries(itemMap).map(([dish, names]) => ({ dish, count: names.length, names })),
+    };
+  }).filter(g => g.items.length > 0);
+}
+
+// Consolidated cook text (grouped by course, deduped with counts)
+const buildCookText = (data) => {
+  const groups = buildConsolidatedOrder(data);
+  if (!groups.length) return "";
+  const people = data?.people ? Object.values(data.people).filter(p => p.confirmed) : [];
+  const date = new Date().toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"});
+
+  let t = `üë®‚Äçüç≥ COOK'S ORDER SHEET\n${people.length} guests ‚Äî ${date}\n` + "‚ïê".repeat(30) + "\n\n";
+  groups.forEach(g => {
+    t += `${g.label}\n`;
+    g.items.forEach(item => {
+      const qty  = item.count > 1 ? ` √ó ${item.count}` : "";
+      const who  = `(${item.names.join(", ")})`;
+      t += `  ‚Ä¢ ${item.dish}${qty}  ${who}\n`;
+    });
+    t += "\n";
+  });
+  t += "‚ïê".repeat(30) + "\n‚è∞ Please confirm 72 hrs before meal time.";
+  return t;
+};
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  TOAST HOOK
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+const { useState, useEffect, useCallback } = React;
+
+function useToast() {
+  const [msg, setMsg] = useState(null);
+  const show = useCallback(m => { setMsg(m); setTimeout(()=>setMsg(null), 2600); }, []);
+  return [msg, show];
+}
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  SETUP GUIDE  (shown before Firebase is configured)
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+function SetupGuide() {
+  return (
+    <div>
+      <div className="hdr">
+        <div className="hdr-brand">StayVista Meal Selector</div>
+        <div className="hdr-title">‚öôÔ∏è One-Time Setup</div>
+      </div>
+      <div className="main">
+        <p className="helper">
+          This app syncs orders in real-time across 4 remote phones via a free Firebase database.
+          Complete these 5 steps once ‚Äî then just share a link in WhatsApp forever.
+        </p>
+
+        <div className="sstep">
+          <div className="sstep-num">1</div>
+          <h3>Create a Free Firebase Project</h3>
+          <ul>
+            <li>Go to <strong>firebase.google.com</strong> ‚Üí <em>Get Started</em></li>
+            <li>Click <em>Add project</em> ‚Üí name it anything (e.g. "meal-selector")</li>
+            <li>Disable Google Analytics ‚Üí <em>Create project</em></li>
+          </ul>
+        </div>
+
+        <div className="sstep">
+          <div className="sstep-num">2</div>
+          <h3>Enable Realtime Database</h3>
+          <ul>
+            <li>Left sidebar ‚Üí <em>Build ‚Üí Realtime Database</em> ‚Üí <em>Create Database</em></li>
+            <li>Choose any region ‚Üí select <strong>Test mode</strong> ‚Üí Enable</li>
+          </ul>
+        </div>
+
+        <div className="sstep">
+          <div className="sstep-num">3</div>
+          <h3>Get Your Config</h3>
+          <ul>
+            <li>Click the ‚öôÔ∏è gear ‚Üí <em>Project Settings</em></li>
+            <li>Scroll to <em>Your apps</em> ‚Üí click <em>&lt;/&gt; Web</em> ‚Üí Register</li>
+            <li>Copy the <code>firebaseConfig</code> object shown</li>
+          </ul>
+        </div>
+
+        <div className="sstep">
+          <div className="sstep-num">4</div>
+          <h3>Paste Config into This File</h3>
+          <p>Open <code>meal-selector.html</code> in any text editor and replace the <code>FIREBASE_CONFIG</code> block at the top:</p>
+          <pre>{`const FIREBASE_CONFIG = {
+  apiKey:      "AIzaSy...",
+  authDomain:  "your-app.firebaseapp.com",
+  databaseURL: "https://your-app-default-rtdb
+               .firebaseio.com",
+  projectId:   "your-app",
+  ...
+};`}</pre>
+        </div>
+
+        <div className="sstep">
+          <div className="sstep-num">5</div>
+          <h3>Host &amp; Share the Link</h3>
+          <ul>
+            <li><strong>Easiest (free, no account):</strong> go to <strong>netlify.com/drop</strong>, drag this HTML file onto the page ‚Üí instant public URL</li>
+            <li>Paste that URL in your WhatsApp group</li>
+            <li>Each person opens it, picks their slot, and orders üéâ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  LANDING SCREEN
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+function Landing({ onCreate }) {
+  return (
+    <div>
+      <div className="main" style={{paddingTop:0}}>
+        <div className="hero">
+          <span className="em">üçΩÔ∏è</span>
+          <h1>Meal Selector</h1>
+          <p>4 people, 4 phones, 1 shared order.<br/>The coordinator creates a session and shares the link ‚Äî everyone clicks and picks their meal.</p>
+        </div>
+        <button className="btn btn-pri" onClick={onCreate}>+ Start Group Order</button>
+      </div>
+    </div>
+  );
+}
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  SESSION SCREEN  (real-time dashboard)
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
+  const [toast, showToast] = useToast();
+  const people   = data?.people ? Object.values(data.people) : Array(4).fill({});
+  const doneCount = people.filter(p => p.confirmed).length;
+  const shareUrl  = `${window.location.origin}${window.location.pathname}?s=${sessionId}`;
+
+  const copyLink = () =>
+    navigator.clipboard.writeText(shareUrl).then(() => showToast("Link copied! Paste it in WhatsApp üëç"));
+
+  const waShare = () => {
+    const msg = `üçΩÔ∏è Time to pick our meals!\n\nOpen this link on your phone:\n${shareUrl}\n\nSession code: *${sessionId}*\n\nEach person taps their slot and chooses. Takes 2 mins!`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  return (
+    <div>
+      <div className="hdr">
+        <div className="hdr-brand">StayVista ‚Äî Meal Selector</div>
+        <div className="hdr-title">Group Order üçΩÔ∏è</div>
+      </div>
+      <div className="main">
+
+        {/* WhatsApp share */}
+        <button className="wa-btn np" onClick={waShare}>
+          <span>üì≤</span> Share Invite in WhatsApp Group
+        </button>
+
+        {/* Progress */}
+        <div className="prog-wrap">
+          <div className="prog-lbl">{doneCount} of 4 orders placed</div>
+          <div className="prog-bar"><div className="prog-fill" style={{width:`${doneCount*25}%`}}/></div>
+        </div>
+
+        {/* Person slots */}
+        <div className="pgrid">
+          {people.map((p, i) => {
+            const isMine   = mySlot === i;
+            const claimed  = !!p.name;
+            const done     = !!p.confirmed;
+            const locked   = claimed && !isMine;
+            return (
+              <div
+                key={i}
+                className={`pcard ${done?"done":""} ${isMine?"mine":""} ${locked?"locked":""}`}
+                onClick={() => !locked && onClaim(i)}
+              >
+                {isMine && <span className="you-tag">You</span>}
+                <div className="pav" style={{background:PAX_COLORS[i]}}>
+                  {p.name ? initials(p.name) : (i+1)}
+                </div>
+                <div className="pname">{p.name || `Person ${i+1}`}</div>
+                {p.mealType && <div className="psub">{MM[p.mealType].emoji} {MM[p.mealType].name}</div>}
+                <span className={`pbadge ${done?"bd":isMine?"bm":"bp"}`}>
+                  {done ? "‚úì Done" : isMine ? "Tap to order" : "Waiting‚Ä¶"}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* View summary */}
+        <button className="btn btn-pri" onClick={onSummary} disabled={doneCount===0}>
+          {doneCount===4 ? "üéâ View & Share Complete Order" : `View Orders (${doneCount}/4 ready)`}
+        </button>
+
+        <p style={{fontSize:12,color:"var(--muted)",textAlign:"center",marginTop:12}}>
+          All orders update live ‚Äî no refresh needed.
+        </p>
+      </div>
+      {toast && <div className="toast">{toast}</div>}
+    </div>
+  );
+}
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  ORDER FLOW
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+function OrderFlow({ slotIdx, existing, onSave, onBack }) {
+  const [step,       setStep]       = useState("name");
+  const [name,       setName]       = useState(existing?.name || "");
+  const [mealType,   setMealType]   = useState(existing?.mealType || null);
+  const [selections, setSelections] = useState(existing?.selections || {});
+
+  const meta     = mealType ? MM[mealType]   : null;
+  const menu     = mealType ? MENU[mealType] : null;
+  const complete = isComplete(mealType, selections);
+
+  const setItem = (id, v) => setSelections(prev => ({...prev, [id]:v}));
+
+  const handleItemClick = (sec, item) => {
+    if (sec.type === "multi3") {
+      const cur = selections[sec.id] || [];
+      setItem(sec.id, cur.includes(item) ? cur.filter(x=>x!==item) : cur.length<3 ? [...cur,item] : cur);
+    } else {
+      setItem(sec.id, item);
+    }
+  };
+
+  const renderItems = (sec, items) => items.map(item => {
+    const v    = selections[sec.id];
+    const isSel = sec.type==="multi3" ? (v||[]).includes(item) : v===item;
+    const isFull = sec.type==="multi3" && (v||[]).length>=3;
+    return (
+      <button key={item}
+        className={`ibtn ${isSel ? (sec.type==="multi3"?"sm":"ss") : ""}`}
+        onClick={() => handleItemClick(sec, item)}
+        disabled={sec.type==="multi3" && isFull && !isSel}
+      >{item}</button>
+    );
+  });
+
+  // ‚îÄ Step: Name ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  if (step==="name") return (
+    <div>
+      <div className="hdr">
+        <button className="hdr-back" onClick={onBack}>‚Üê Back</button>
+        <div className="hdr-brand">Slot {slotIdx+1}</div>
+        <div className="hdr-title">What's your name?</div>
+      </div>
+      <div className="main">
+        <input className="nin" type="text" placeholder={`Person ${slotIdx+1}`}
+          value={name} onChange={e=>setName(e.target.value)} autoFocus />
+        <button className="btn btn-pri" onClick={()=>setStep("meal-type")}>Next ‚Üí</button>
+      </div>
+    </div>
+  );
+
+  // ‚îÄ Step: Meal type ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  if (step==="meal-type") return (
+    <div>
+      <div className="hdr">
+        <button className="hdr-back" onClick={()=>setStep("name")}>‚Üê Back</button>
+        <div className="hdr-brand">{name||`Person ${slotIdx+1}`}</div>
+        <div className="hdr-title">Choose Your Meal</div>
+      </div>
+      <div className="main">
+        <p className="helper">Which cuisine would you like today?</p>
+        <div className="mtgrid">
+          {Object.entries(MM).map(([k,m]) => (
+            <div key={k}
+              className={`mtcard ${mealType===k?"sel":""}`}
+              style={mealType===k ? {borderColor:m.color, background:`${m.color}12`} : {}}
+              onClick={()=>{ setMealType(k); setSelections({}); }}
+            >
+              <span className="mtem">{m.emoji}</span>
+              <div className="mtnm">{m.name}</div>
+            </div>
+          ))}
+        </div>
+        <div className="row">
+          <button className="back-sm" onClick={()=>setStep("name")}>‚Üê</button>
+          <button className="btn btn-pri" disabled={!mealType} onClick={()=>setStep("customize")}>Next ‚Üí</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ‚îÄ Step: Customize ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  if (step==="customize") return (
+    <div>
+      <div className="hdr">
+        <button className="hdr-back" onClick={()=>setStep("meal-type")}>‚Üê Back</button>
+        <div className="hdr-brand" style={{color:meta.color}}>{meta.emoji} {meta.name}</div>
+        <div className="hdr-title">Make Your Picks</div>
+      </div>
+      <div className="main">
+
+        {menu.sections.map(sec => {
+          const v    = selections[sec.id];
+          const done = sec.type==="multi3" ? Array.isArray(v)&&v.length===3 : !!v;
+          return (
+            <div key={sec.id} className={`scard ${done?"ok":""}`}>
+              <div className="slbl">
+                {sec.label}
+                {done && <span className="chk">‚úì</span>}
+              </div>
+              <div className="shint">
+                {sec.hint}
+                {sec.type==="multi3" && (
+                  <span className="cnt" style={{color:(v||[]).length===3?"var(--ok)":"inherit"}}>
+                    {" "}({(v||[]).length}/3)
+                  </span>
+                )}
+              </div>
+              <div className="ilist">
+                {sec.groups
+                  ? sec.groups.map(g => (
+                      <div key={g.label}>
+                        <div className="glbl">{g.label}</div>
+                        {renderItems(sec, g.items)}
+                      </div>
+                    ))
+                  : renderItems(sec, sec.items)
+                }
+              </div>
+            </div>
+          );
+        })}
+
+        {menu.fixed && (
+          <div className="scard" style={{background:"#FAFAF8"}}>
+            <div className="slbl">Accompaniments</div>
+            <div className="shint">Included with your meal ‚Äî no choice needed</div>
+            <div className="fchips">{menu.fixed.map(f=><span key={f} className="fchip">‚úì {f}</span>)}</div>
+          </div>
+        )}
+
+        <div className="row" style={{marginTop:4}}>
+          <button className="back-sm" onClick={()=>setStep("meal-type")}>‚Üê</button>
+          <button className="btn btn-pri" disabled={!complete} onClick={()=>setStep("review")}>
+            Review Order ‚Üí
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ‚îÄ Step: Review ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  if (step==="review") return (
+    <div>
+      <div className="hdr">
+        <button className="hdr-back" onClick={()=>setStep("customize")}>‚Üê Edit</button>
+        <div className="hdr-brand">{name||`Person ${slotIdx+1}`}</div>
+        <div className="hdr-title">Review Your Order</div>
+      </div>
+      <div className="main">
+        <div className="ometa" style={{background:meta.color}}>
+          <span className="ometa-em">{meta.emoji}</span>
+          <div>
+            <div className="ometa-name">{name||`Person ${slotIdx+1}`}</div>
+            <div className="ometa-meal">{meta.name}</div>
+          </div>
+        </div>
+
+        {menu.sections.map(sec => {
+          const v = selections[sec.id];
+          return (
+            <div key={sec.id} className="rrow">
+              <div className="rlbl">{sec.label}</div>
+              <div className="rval">{Array.isArray(v) ? v.join(", ") : v}</div>
+            </div>
+          );
+        })}
+
+        {menu.fixed && (
+          <div className="rrow">
+            <div className="rlbl">Accompaniments (included)</div>
+            <div className="rfixed">{menu.fixed.join(" ¬∑ ")}</div>
+          </div>
+        )}
+
+        <div className="row" style={{marginTop:20}}>
+          <button className="back-sm" onClick={()=>setStep("customize")}>‚Üê Edit</button>
+          <button className="btn btn-pri"
+            onClick={()=>onSave({name:name||`Person ${slotIdx+1}`, mealType, selections})}>
+            Confirm ‚úì
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return null;
+}
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  SUMMARY SCREEN
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+function Summary({ data, sessionId, onBack }) {
+  const [tab,   setTab]   = useState("cook"); // "cook" | "persons"
+  const [toast, showToast] = useToast();
+
+  const people     = data?.people ? Object.values(data.people).filter(p=>p.confirmed&&p.mealType) : [];
+  const groups     = buildConsolidatedOrder(data);
+  const cookText   = buildCookText(data);
+
+  const copyText = () =>
+    navigator.clipboard.writeText(cookText).then(()=>showToast("Copied! Paste into WhatsApp / email üìã"));
+
+  const sendWA = () =>
+    window.open(`https://wa.me/?text=${encodeURIComponent(cookText)}`, "_blank");
+
+  return (
+    <div>
+      <div className="hdr np">
+        <button className="hdr-back" onClick={onBack}>‚Üê Back</button>
+        <div className="hdr-brand">Session {sessionId}</div>
+        <div className="hdr-title">
+          {tab === "cook" ? "üë®‚Äçüç≥ Cook's Order" : "üçΩÔ∏è Per Person"}
+        </div>
+      </div>
+      <div className="main">
+
+        {/* Tabs */}
+        <div className="tabs np">
+          <button className={`tab ${tab==="cook"?"active":""}`} onClick={()=>setTab("cook")}>
+            üë®‚Äçüç≥ Cook's View
+          </button>
+          <button className={`tab ${tab==="persons"?"active":""}`} onClick={()=>setTab("persons")}>
+            üôã Per Person
+          </button>
+        </div>
+
+        {/* ‚îÄ‚îÄ COOK'S VIEW: consolidated by course ‚îÄ‚îÄ */}
+        {tab === "cook" && (
+          <>
+            {people.length < 4 && (
+              <p style={{fontSize:13,color:"var(--muted)",textAlign:"center",marginBottom:16}}>
+                ‚è≥ {4-people.length} more order{4-people.length>1?"s":""} pending ‚Äî showing partial view
+              </p>
+            )}
+
+            {groups.map(group => (
+              <div key={group.id} className="cgroup">
+                <div className="cgroup-hdr">
+                  <span className="cgroup-label">{group.label}</span>
+                  <span className="cgroup-count">
+                    {group.items.reduce((s,i)=>s+i.count,0)} order{group.items.reduce((s,i)=>s+i.count,0)>1?"s":""}
+                  </span>
+                </div>
+                {group.items.map((item,i) => (
+                  <div key={i} className="citem">
+                    <span className="citem-dish">{item.dish}</span>
+                    <div className="citem-right">
+                      <div>
+                        <span className="citem-count">√ó {item.count}</span>
+                      </div>
+                      <div className="citem-who">{item.names.join(", ")}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </>
+        )}
+
+        {/* ‚îÄ‚îÄ PER PERSON VIEW ‚îÄ‚îÄ */}
+        {tab === "persons" && people.map((p, i) => {
+          const m  = MM[p.mealType];
+          const mn = MENU[p.mealType];
+          return (
+            <div key={i} className="sum-card">
+              <div className="sum-hdr" style={{background:m.color}}>
+                <div className="sum-av">{initials(p.name)}</div>
+                <div>
+                  <div className="sum-pname">{p.name}</div>
+                  <div className="sum-mname">{m.emoji} {m.name}</div>
+                </div>
+              </div>
+              <div className="sum-body">
+                {mn.sections.map(sec => {
+                  const v = p.selections?.[sec.id];
+                  return (
+                    <div key={sec.id} className="srow">
+                      <span className="sl">{sec.label}</span>
+                      <span className="sv">{Array.isArray(v) ? v.join(", ") : v}</span>
+                    </div>
+                  );
+                })}
+                {mn.fixed && (
+                  <div className="srow">
+                    <span className="sl">Accompaniments</span>
+                    <span className="sv" style={{color:"var(--muted)",fontStyle:"italic"}}>{mn.fixed.join(" ¬∑ ")}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Share buttons */}
+        <button className="wa-btn np" onClick={sendWA}>
+          <span>üì≤</span> Send to Cook via WhatsApp
+        </button>
+        <div className="row np">
+          <button className="btn btn-out" onClick={copyText}>üìã Copy Text</button>
+          <button className="btn btn-out" onClick={()=>window.print()}>üñ®Ô∏è Print</button>
+        </div>
+      </div>
+      {toast && <div className="toast">{toast}</div>}
+    </div>
+  );
+}
+
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  ROOT APP
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+function App() {
+  const [screen,  setScreen]  = useState("landing");
+  const [sid,     setSid]     = useState(null);
+  const [sData,   setSData]   = useState(null);
+  const [mySlot,  setMySlot]  = useState(null);
+
+  // Parse ?s= from URL
+  useEffect(() => {
+    const s = new URLSearchParams(window.location.search).get("s");
+    if (s) {
+      const code = s.toUpperCase();
+      setSid(code);
+      const saved = localStorage.getItem(`ms_${code}`);
+      if (saved !== null) setMySlot(parseInt(saved));
+      setScreen("session");
+    }
+  }, []);
+
+  // Firebase listener
+  useEffect(() => {
+    if (!sid || !db) return;
+    const ref = db.ref(`sessions/${sid}`);
+    ref.on("value", snap => setSData(snap.val() || {people:{}}));
+    return () => ref.off();
+  }, [sid]);
+
+  const createSession = () => {
+    const code = genCode();
+    const init = Object.fromEntries([0,1,2,3].map(i=>[i,{name:"",mealType:null,selections:{},confirmed:false}]));
+    db.ref(`sessions/${code}`).set({createdAt:Date.now(), people:init});
+    setSid(code);
+    window.history.pushState({}, "", `?s=${code}`);
+    setScreen("session");
+  };
+
+  const joinSession = (code) => {
+    const c = code.toUpperCase();
+    setSid(c);
+    const saved = localStorage.getItem(`ms_${c}`);
+    if (saved !== null) setMySlot(parseInt(saved));
+    window.history.pushState({}, "", `?s=${c}`);
+    setScreen("session");
+  };
+
+  const claimSlot = (i) => {
+    setMySlot(i);
+    localStorage.setItem(`ms_${sid}`, i);
+    setScreen("order");
+  };
+
+  const saveOrder = (orderData) => {
+    db.ref(`sessions/${sid}/people/${mySlot}`).update({...orderData, confirmed:true});
+    setScreen("session");
+  };
+
+  if (NEEDS_SETUP) return <SetupGuide />;
+
+  if (screen==="landing") return <Landing onCreate={createSession} />;
+
+  if (!sData) return <div className="loader"><div className="spin"/></div>;
+
+  if (screen==="session") return (
+    <Session
+      sessionId={sid} data={sData} mySlot={mySlot}
+      onClaim={claimSlot} onSummary={()=>setScreen("summary")}
+    />
+  );
+
+  if (screen==="order") return (
+    <OrderFlow
+      slotIdx={mySlot} existing={sData?.people?.[mySlot]}
+      onSave={saveOrder} onBack={()=>setScreen("session")}
+    />
+  );
+
+  if (screen==="summary") return (
+    <Summary data={sData} sessionId={sid} onBack={()=>setScreen("session")} />
+  );
+
+  return null;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
