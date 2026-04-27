@@ -184,7 +184,7 @@
     border:1.5px solid transparent; transition:border-color .2s;
   }
   .scard.ok { border-color:var(--ok); }
-  .slbl { font-size:15px; font-weight:700; margin-bottom:3px; display:flex; align-items:center; justify-content:space-between; }
+  .slbl { font-size:15px; font-weight:700; margin-bottom)3px; display:flex; align-items:center; justify-content:space-between; }
   .slbl .chk { color:var(--ok); font-size:16px; }
   .shint { font-size:12px; color:var(--muted); margin-bottom:12px; }
   .shint .cnt { font-weight:800; }
@@ -366,7 +366,7 @@ const MM = {
 const MENU = {
   indian: {
     sections: [
-      { id:"paneer",      label:"Veg Main â Paneer",        hint:"Choose any 1",                     type:"single",
+      { id:"paneer",      label:"Veg Main â Paneer",        hint:"Choose any 1",                   type:"single",
         items:["Palak Paneer","Matar Paneer","Paneer Makhani","Paneer Lababdar","Paneer Masala","Paneer Bhurji","Kadhai Paneer"] },
       { id:"second_main", label:"Second Main Course",        hint:"Choose any 1 â Veg or Non-Veg",  type:"single",
         groups:[
@@ -383,8 +383,8 @@ const MENU = {
   chinese: {
     sections: [
       { id:"soup",       label:"Soup",                      hint:"Choose any 1", type:"single", items:["Manchow Soup","Hot & Sour Soup","Sweet Corn Soup"] },
-      { id:"starter",    label:"Starter",                  hint:"Choose any 1", type:"single", items:["Crispy Chilli Potato","Veg Crispy","Corn Salt Pepper","Kung Pao Potato","Honey Chilli Potato"] },
-      { id:"veg_carb",   label:"Veg Rice or Noodles",      hint:"Choose any 1", type:"single", items:["Fried Rice","Veg Hakka Noodles"] },
+      { id:"starter",    label:"Starter",                   hint:"Choose any 1", type:"single", items:["Crispy Chilli Potato","Veg Crispy","Corn Salt Pepper","Kung Pao Potato","Honey Chilli Potato"] },
+      { id:"veg_carb",   label:"Veg Rice or Noodles",       hint:"Choose any 1", type:"single", items:["Fried Rice","Veg Hakka Noodles"] },
       { id:"nveg_carb",  label:"Non-Veg Rice or Noodles",   hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Fried Rice","Chicken Hakka Noodles"] },
       { id:"main", label:"Main Course", hint:"Choose any 1", type:"single",
         groups:[
@@ -399,7 +399,7 @@ const MENU = {
       { id:"starter",    label:"Starter",             hint:"Choose any 1", type:"single", items:["Cheese Corn Balls","Fried Onion Rings"] },
       { id:"veg_main",   label:"Veg Main Course",     hint:"Choose any 1", type:"single", items:["Veg Au Gratin","Mushroom Stroganoff"] },
       { id:"nveg_main",  label:"Non-Veg Main Course", hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Stroganoff","Grilled Chicken with Pan Jus"] },
-      { id:"vessert",    label:"Dessert",             hint:"Choose any 1", type:"single", items:["Banoffee Pie","Fruit Custard"] },
+      { id:"dessert",    label:"Dessert",             hint:"Choose any 1", type:"single", items:["Banoffee Pie","Fruit Custard"] },
     ],
   },
   barbeque: {
@@ -663,7 +663,7 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
         <div className="pgrid">
           {people.map((p, i) => {
             const isMine   = mySlot === i;
-            const claimed  = !!p.name;
+            const claimed  = !!p.name || !!p.reservedAt;
             const done     = !!p.confirmed;
             const locked   = claimed && !isMine;
             return (
@@ -1060,6 +1060,7 @@ function App() {
   const claimSlot = (i) => {
     setMySlot(i);
     localStorage.setItem(`ms_${sid}`, i);
+    db.ref(`sessions/${sid}/people/${i}/reservedAt`).set(Date.now());
     setScreen("order");
   };
 
