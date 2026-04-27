@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>üçΩÔ∏è Meal Selector</title>
+  <title>Sage Villa Meal Selection</title>
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -37,7 +37,7 @@
   }
   #root { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg); }
 
-  /* ‚îÄ‚îÄ Loader ‚îÄ‚îÄ */
+  /* ââ Loader ââ */
   .loader { display:flex; align-items:center; justify-content:center; height:80vh; }
   .spin {
     width:36px; height:36px;
@@ -46,7 +46,7 @@
   }
   @keyframes sp { to { transform:rotate(360deg); } }
 
-  /* ‚îÄ‚îÄ Header ‚îÄ‚îÄ */
+  /* ââ Header ââ */
   .hdr {
     background:#fff; padding:14px 20px 12px;
     border-bottom:1px solid var(--border);
@@ -60,10 +60,10 @@
     display:flex; align-items:center; gap:4px; margin-bottom:6px;
   }
 
-  /* ‚îÄ‚îÄ Main ‚îÄ‚îÄ */
+  /* ââ Main ââ */
   .main { padding:20px; }
 
-  /* ‚îÄ‚îÄ Buttons ‚îÄ‚îÄ */
+  /* ââ Buttons ââ */
   .btn {
     display:block; width:100%; padding:14px 20px;
     border-radius:var(--rs); border:none;
@@ -82,7 +82,7 @@
   }
   .row .btn { flex:1; }
 
-  /* ‚îÄ‚îÄ Landing ‚îÄ‚îÄ */
+  /* ââ Landing ââ */
   .hero { text-align:center; padding:40px 20px 24px; }
   .hero .em { font-size:52px; display:block; margin-bottom:12px; }
   .hero h1 { font-size:26px; font-weight:800; margin-bottom:8px; }
@@ -107,7 +107,7 @@
   }
   .join-go:disabled { background:#D1D5DB; cursor:not-allowed; }
 
-  /* ‚îÄ‚îÄ Session screen ‚îÄ‚îÄ */
+  /* ââ Session screen ââ */
   .code-bar {
     background:#fff; border:1.5px solid var(--border);
     border-radius:var(--rs); padding:12px 16px;
@@ -156,7 +156,7 @@
   .prog-bar { height:4px; background:var(--border); border-radius:4px; overflow:hidden; }
   .prog-fill { height:100%; background:var(--pri); border-radius:4px; transition:width .4s; }
 
-  /* ‚îÄ‚îÄ WhatsApp button ‚îÄ‚îÄ */
+  /* ââ WhatsApp button ââ */
   .wa-btn {
     display:flex; align-items:center; justify-content:center; gap:10px;
     width:100%; padding:14px; background:#25D366; color:#fff;
@@ -165,7 +165,7 @@
   }
   .wa-btn:hover { background:#1DA856; }
 
-  /* ‚îÄ‚îÄ Meal type ‚îÄ‚îÄ */
+  /* ââ Meal type ââ */
   .mtgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
   .mtcard {
     background:#fff; border:2px solid var(--border); border-radius:var(--r);
@@ -177,7 +177,7 @@
   .mtem { font-size:38px; display:block; margin-bottom:8px; }
   .mtnm { font-size:13px; font-weight:700; }
 
-  /* ‚îÄ‚îÄ Section card ‚îÄ‚îÄ */
+  /* ââ Section card ââ */
   .scard {
     background:#fff; border-radius:var(--r); padding:18px;
     box-shadow:var(--sh); margin-bottom:14px;
@@ -203,15 +203,15 @@
   }
   .ibtn:hover:not(:disabled) { border-color:var(--pri); background:var(--pri-l); }
   .ibtn.ss { border-color:var(--pri); background:var(--pri-l); font-weight:700; }
-  .ibtn.ss::after { content:'‚úì'; color:var(--pri); font-weight:900; }
+  .ibtn.ss::after { content:'â'; color:var(--pri); font-weight:900; }
   .ibtn.sm { border-color:var(--ok); background:var(--ok-l); font-weight:700; }
-  .ibtn.sm::after { content:'‚úì'; color:var(--ok); font-weight:900; }
+  .ibtn.sm::after { content:'â'; color:var(--ok); font-weight:900; }
   .ibtn:disabled:not(.sm) { opacity:.3; cursor:not-allowed; }
 
   .fchips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
   .fchip { padding:4px 10px; background:#F3F4F6; border-radius:20px; font-size:12px; color:var(--muted); }
 
-  /* ‚îÄ‚îÄ Name input ‚îÄ‚îÄ */
+  /* ââ Name input ââ */
   .nin {
     width:100%; padding:14px 16px; font-size:16px;
     border:2px solid var(--border); border-radius:var(--rs);
@@ -220,7 +220,7 @@
   .nin:focus { border-color:var(--pri); }
   .helper { font-size:14px; color:var(--muted); margin-bottom:20px; line-height:1.5; }
 
-  /* ‚îÄ‚îÄ Order meta bar ‚îÄ‚îÄ */
+  /* ââ Order meta bar ââ */
   .ometa {
     display:flex; align-items:center; gap:12px;
     padding:14px 18px; border-radius:var(--rs);
@@ -230,7 +230,7 @@
   .ometa-name { font-size:16px; font-weight:800; }
   .ometa-meal { font-size:12px; opacity:.85; }
 
-  /* ‚îÄ‚îÄ Review ‚îÄ‚îÄ */
+  /* ââ Review ââ */
   .rrow {
     background:#fff; border-radius:var(--rs);
     padding:12px 16px; margin-bottom:8px; box-shadow:var(--sh);
@@ -239,7 +239,7 @@
   .rval { font-size:15px; font-weight:600; }
   .rfixed { font-size:13px; color:var(--muted); }
 
-  /* ‚îÄ‚îÄ Summary ‚îÄ‚îÄ */
+  /* ââ Summary ââ */
   .sum-card { background:#fff; border-radius:var(--r); overflow:hidden; box-shadow:var(--sh); margin-bottom:16px; }
   .sum-hdr { padding:14px 18px; color:#fff; display:flex; align-items:center; gap:12px; }
   .sum-av {
@@ -259,7 +259,7 @@
   .sl { color:var(--muted); font-size:12px; flex-shrink:0; max-width:38%; line-height:1.3; }
   .sv { font-weight:600; text-align:right; max-width:60%; }
 
-  /* ‚îÄ‚îÄ Toast ‚îÄ‚îÄ */
+  /* ââ Toast ââ */
   .toast {
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
     background:#1C1C1E; color:#fff; padding:10px 22px;
@@ -268,7 +268,7 @@
   }
   @keyframes tin { from { opacity:0; transform:translateX(-50%) translateY(8px); } }
 
-  /* ‚îÄ‚îÄ Setup guide ‚îÄ‚îÄ */
+  /* ââ Setup guide ââ */
   .sstep { background:#fff; border-radius:var(--r); padding:18px; margin-bottom:12px; box-shadow:var(--sh); }
   .sstep-num {
     width:28px; height:28px; border-radius:50%; background:var(--pri); color:#fff;
@@ -284,7 +284,7 @@
     font-family:monospace; line-height:1.6; white-space:pre-wrap;
   }
 
-  /* ‚îÄ‚îÄ Tabs ‚îÄ‚îÄ */
+  /* ââ Tabs ââ */
   .tabs { display:flex; gap:6px; margin-bottom:18px; }
   .tab {
     flex:1; padding:10px; border-radius:var(--rs);
@@ -294,7 +294,7 @@
   }
   .tab.active { background:var(--pri); color:#fff; border-color:var(--pri); }
 
-  /* ‚îÄ‚îÄ Consolidated cook view ‚îÄ‚îÄ */
+  /* ââ Consolidated cook view ââ */
   .cgroup { background:#fff; border-radius:var(--r); box-shadow:var(--sh); margin-bottom:14px; overflow:hidden; }
   .cgroup-hdr {
     padding:12px 16px; display:flex; align-items:center; justify-content:space-between;
@@ -332,10 +332,10 @@
 <div id="root"><div class="loader"><div class="spin"></div></div></div>
 
 <script type="text/babel">
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
-//  STEP 1 ‚ñ∏ Paste your Firebase config here (free account at firebase.google.com)
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+//  STEP 1 â¸ Paste your Firebase config here (free account at firebase.google.com)
 //  Then host this file on Netlify Drop (netlify.com/drop) and share the URL
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyA1F-5X1EkUMHIxKFcdQF8YylwPHM4_p3Y",
   authDomain:        "sage-villa-meals.firebaseapp.com",
@@ -353,25 +353,25 @@ if (!NEEDS_SETUP) {
   db = firebase.database();
 }
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  MENU DATA
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const MM = {
-  indian:      { name:"Indian Meal",      emoji:"üçõ", color:"#C4543A" },
-  chinese:     { name:"Chinese Meal",     emoji:"ü•¢", color:"#B82535" },
-  continental: { name:"Continental Meal", emoji:"üåç", color:"#2A5FA5" },
-  barbeque:    { name:"Barbeque",         emoji:"üî•", color:"#B55E1A" },
+  indian:      { name:"Indian Meal",      emoji:"ð", color:"#C4543A" },
+  chinese:     { name:"Chinese Meal",     emoji:"ð¥¢", color:"#B82535" },
+  continental: { name:"Continental Meal", emoji:"ð", color:"#2A5FA5" },
+  barbeque:    { name:"Barbeque",         emoji:"ð¥", color:"#B55E1A" },
 };
 
 const MENU = {
   indian: {
     sections: [
-      { id:"paneer",      label:"Veg Main ‚Äî Paneer",        hint:"Choose any 1",                   type:"single",
+      { id:"paneer",      label:"Veg Main â Paneer",        hint:"Choose any 1",                     type:"single",
         items:["Palak Paneer","Matar Paneer","Paneer Makhani","Paneer Lababdar","Paneer Masala","Paneer Bhurji","Kadhai Paneer"] },
-      { id:"second_main", label:"Second Main Course",        hint:"Choose any 1 ‚Äî Veg or Non-Veg",  type:"single",
+      { id:"second_main", label:"Second Main Course",        hint:"Choose any 1 â Veg or Non-Veg",  type:"single",
         groups:[
-          { label:"ü•ó Veg Options",     items:["Sabzi Kolhapuri","Chana Masala","Baingan Bharta","Gobi Matar","Bharleli Vaangi","Cabbage Foogath","French Bean Thoran","Aloo Jeera","Zunka","Soyabean Matar"] },
-          { label:"üçó Non-Veg Options", items:["Angari Chicken Curry","Butter Chicken","Chicken Sukha","Chicken Sagoti","Malvani Chicken","Chicken Lapeta","Chicken Masala","Methi Murgh","Lababdar Chicken"] },
+          { label:"ð¥ Veg Options",     items:["Sabzi Kolhapuri","Chana Masala","Baingan Bharta","Gobi Matar","Bharleli Vaangi","Cabbage Foogath","French Bean Thoran","Aloo Jeera","Zunka","Soyabean Matar"] },
+          { label:"ð Non-Veg Options", items:["Angari Chicken Curry","Butter Chicken","Chicken Sukha","Chicken Sagoti","Malvani Chicken","Chicken Lapeta","Chicken Masala","Methi Murgh","Lababdar Chicken"] },
         ]},
       { id:"bread",   label:"Bread",   hint:"Choose any 1", type:"single", items:["Tawa Phulka","Chapati","Bhakri"] },
       { id:"dal",     label:"Dal",     hint:"Choose any 1", type:"single", items:["Rajma Masala","Tadka Dal","Kadhi Pakodi","Varan","Amti"] },
@@ -383,13 +383,13 @@ const MENU = {
   chinese: {
     sections: [
       { id:"soup",       label:"Soup",                      hint:"Choose any 1", type:"single", items:["Manchow Soup","Hot & Sour Soup","Sweet Corn Soup"] },
-      { id:"starter",    label:"Starter",                   hint:"Choose any 1", type:"single", items:["Crispy Chilli Potato","Veg Crispy","Corn Salt Pepper","Kung Pao Potato","Honey Chilli Potato"] },
-      { id:"veg_carb",   label:"Veg Rice or Noodles",       hint:"Choose any 1", type:"single", items:["Fried Rice","Veg Hakka Noodles"] },
+      { id:"starter",    label:"Starter",                  hint:"Choose any 1", type:"single", items:["Crispy Chilli Potato","Veg Crispy","Corn Salt Pepper","Kung Pao Potato","Honey Chilli Potato"] },
+      { id:"veg_carb",   label:"Veg Rice or Noodles",      hint:"Choose any 1", type:"single", items:["Fried Rice","Veg Hakka Noodles"] },
       { id:"nveg_carb",  label:"Non-Veg Rice or Noodles",   hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Fried Rice","Chicken Hakka Noodles"] },
       { id:"main", label:"Main Course", hint:"Choose any 1", type:"single",
         groups:[
-          { label:"ü•ó Veg",     items:["Veg Manchurian Gravy","Paneer in Hot Garlic Sauce","Paneer Chilli Gravy","Stir-Fried Vegetables"] },
-          { label:"üçó Non-Veg", items:["Chicken Manchurian Gravy","Chicken in Hot Garlic Sauce","Chicken Chilli Gravy","Chicken in Butter Garlic Sauce"] },
+          { label:"ð¥ Veg",     items:["Veg Manchurian Gravy","Paneer in Hot Garlic Sauce","Paneer Chilli Gravy","Stir-Fried Vegetables"] },
+          { label:"ð Non-Veg", items:["Chicken Manchurian Gravy","Chicken in Hot Garlic Sauce","Chicken Chilli Gravy","Chicken in Butter Garlic Sauce"] },
         ]},
     ],
   },
@@ -399,22 +399,22 @@ const MENU = {
       { id:"starter",    label:"Starter",             hint:"Choose any 1", type:"single", items:["Cheese Corn Balls","Fried Onion Rings"] },
       { id:"veg_main",   label:"Veg Main Course",     hint:"Choose any 1", type:"single", items:["Veg Au Gratin","Mushroom Stroganoff"] },
       { id:"nveg_main",  label:"Non-Veg Main Course", hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Stroganoff","Grilled Chicken with Pan Jus"] },
-      { id:"dessert",    label:"Dessert",             hint:"Choose any 1", type:"single", items:["Banoffee Pie","Fruit Custard"] },
+      { id:"vessert",    label:"Dessert",             hint:"Choose any 1", type:"single", items:["Banoffee Pie","Fruit Custard"] },
     ],
   },
   barbeque: {
     sections: [
       { id:"type",       label:"Your Preference", hint:"Fixed main item",                    type:"single", items:["Veg (Paneer)","Non-Veg (Chicken)"] },
       { id:"marination", label:"Marination",      hint:"Choose any 1",                       type:"single", items:["Tikka","Hariyali","Reshmi"] },
-      { id:"sides",      label:"BBQ Sides",       hint:"Choose exactly 3  (‚Çπ100 extra each)", type:"multi3", items:["Mushroom","Baby Potato","Capsicum","Onion","Cauliflower","Corn on the Cob"] },
+      { id:"sides",      label:"BBQ Sides",       hint:"Choose exactly 3  (â¹100 extra each)", type:"multi3", items:["Mushroom","Baby Potato","Capsicum","Onion","Cauliflower","Corn on the Cob"] },
     ],
     fixed:["Salad","Chutney"],
   },
 };
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  HELPERS
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const PAX_COLORS = ["#E07B54","#5A8FE0","#5AB87A","#C4843A"];
 const genCode    = () => Math.random().toString(36).slice(2,8).toUpperCase();
 const initials   = s => (s||"").trim().split(" ").filter(Boolean).map(w=>w[0].toUpperCase()).join("").slice(0,2)||"?";
@@ -435,14 +435,14 @@ function buildConsolidatedOrder(data) {
     : [];
 
   const GROUPS = [
-    { id:"soups",    label:"ü•£ Soups",         sources:[{mt:"chinese",s:"soup"},{mt:"continental",s:"soup"}] },
-    { id:"starters", label:"üç¢ Starters",       sources:[{mt:"chinese",s:"starter"},{mt:"continental",s:"starter"}] },
-    { id:"main",     label:"üçõ Main Course",    sources:[{mt:"indian",s:"paneer"},{mt:"indian",s:"second_main"},{mt:"chinese",s:"main"},{mt:"continental",s:"veg_main"},{mt:"continental",s:"nveg_main"}] },
-    { id:"bread",    label:"ü´ì Breads",          sources:[{mt:"indian",s:"bread"}] },
-    { id:"dal",      label:"ü´ï Dal",             sources:[{mt:"indian",s:"dal"}] },
-    { id:"rice",     label:"üçö Rice & Noodles", sources:[{mt:"indian",s:"rice"},{mt:"chinese",s:"veg_carb"},{mt:"chinese",s:"nveg_carb"}] },
-    { id:"dessert",  label:"üçÆ Desserts",        sources:[{mt:"indian",s:"dessert"},{mt:"continental",s:"dessert"}] },
-    { id:"bbq",      label:"üî• Barbeque",        sources:[{mt:"barbeque",s:"type"},{mt:"barbeque",s:"marination"},{mt:"barbeque",s:"sides"}] },
+    { id:"soups",    label:"ð¥£ Soups",         sources:[{mt:"chinese",s:"soup"},{mt:"continental",s:"soup"}] },
+    { id:"starters", label:"ð¢ Starters",       sources:[{mt:"chinese",s:"starter"},{mt:"continental",s:"starter"}] },
+    { id:"main",     label:"ð Main Course",    sources:[{mt:"indian",s:"paneer"},{mt:"indian",s:"second_main"},{mt:"chinese",s:"main"},{mt:"continental",s:"veg_main"},{mt:"continental",s:"nveg_main"}] },
+    { id:"bread",    label:"ð« Breads",          sources:[{mt:"indian",s:"bread"}] },
+    { id:"dal",      label:"ð« Dal",             sources:[{mt:"indian",s:"dal"}] },
+    { id:"rice",     label:"ð Rice & Noodles", sources:[{mt:"indian",s:"rice"},{mt:"chinese",s:"veg_carb"},{mt:"chinese",s:"nveg_carb"}] },
+    { id:"dessert",  label:"ð® Desserts",        sources:[{mt:"indian",s:"dessert"},{mt:"continental",s:"dessert"}] },
+    { id:"bbq",      label:"ð¥ Barbeque",        sources:[{mt:"barbeque",s:"type"},{mt:"barbeque",s:"marination"},{mt:"barbeque",s:"sides"}] },
   ];
 
   return GROUPS.map(group => {
@@ -473,23 +473,23 @@ const buildCookText = (data) => {
   const people = data?.people ? Object.values(data.people).filter(p => p.confirmed) : [];
   const date = new Date().toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"});
 
-  let t = `üë®‚Äçüç≥ COOK'S ORDER SHEET\n${people.length} guests ‚Äî ${date}\n` + "‚ïê".repeat(30) + "\n\n";
+  let t = `ð¨âð³ COOK'S ORDER SHEET\n${people.length} guests â ${date}\n` + "â".repeat(30) + "\n\n";
   groups.forEach(g => {
     t += `${g.label}\n`;
     g.items.forEach(item => {
-      const qty  = item.count > 1 ? ` √ó ${item.count}` : "";
+      const qty  = item.count > 1 ? ` Ã ${item.count}` : "";
       const who  = `(${item.names.join(", ")})`;
-      t += `  ‚Ä¢ ${item.dish}${qty}  ${who}\n`;
+      t += `  â¢ ${item.dish}${qty}  ${who}\n`;
     });
     t += "\n";
   });
-  t += "‚ïê".repeat(30) + "\n‚è∞ Please confirm 72 hrs before meal time.";
+  t += "â".repeat(30) + "\nâ° Please confirm 72 hrs before meal time.";
   return t;
 };
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  TOAST HOOK
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 const { useState, useEffect, useCallback } = React;
 
 function useToast() {
@@ -498,29 +498,29 @@ function useToast() {
   return [msg, show];
 }
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  SETUP GUIDE  (shown before Firebase is configured)
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function SetupGuide() {
   return (
     <div>
       <div className="hdr">
-        <div className="hdr-brand">StayVista Meal Selector</div>
-        <div className="hdr-title">‚öôÔ∏è One-Time Setup</div>
+        <div className="hdr-brand">Sage Villa Meal Selection</div>
+        <div className="hdr-title">One-Time Setup</div>
       </div>
       <div className="main">
         <p className="helper">
           This app syncs orders in real-time across 4 remote phones via a free Firebase database.
-          Complete these 5 steps once ‚Äî then just share a link in WhatsApp forever.
+          Complete these 5 steps once â then just share a link in WhatsApp forever.
         </p>
 
         <div className="sstep">
           <div className="sstep-num">1</div>
           <h3>Create a Free Firebase Project</h3>
           <ul>
-            <li>Go to <strong>firebase.google.com</strong> ‚Üí <em>Get Started</em></li>
-            <li>Click <em>Add project</em> ‚Üí name it anything (e.g. "meal-selector")</li>
-            <li>Disable Google Analytics ‚Üí <em>Create project</em></li>
+            <li>Go to <strong>firebase.google.com</strong> â <em>Get Started</em></li>
+            <li>Click <em>Add project</em> â name it anything (e.g. "meal-selector")</li>
+            <li>Disable Google Analytics â <em>Create project</em></li>
           </ul>
         </div>
 
@@ -528,8 +528,8 @@ function SetupGuide() {
           <div className="sstep-num">2</div>
           <h3>Enable Realtime Database</h3>
           <ul>
-            <li>Left sidebar ‚Üí <em>Build ‚Üí Realtime Database</em> ‚Üí <em>Create Database</em></li>
-            <li>Choose any region ‚Üí select <strong>Test mode</strong> ‚Üí Enable</li>
+            <li>Left sidebar â <em>Build â Realtime Database</em> â <em>Create Database</em></li>
+            <li>Choose any region â select <strong>Test mode</strong> â Enable</li>
           </ul>
         </div>
 
@@ -537,8 +537,8 @@ function SetupGuide() {
           <div className="sstep-num">3</div>
           <h3>Get Your Config</h3>
           <ul>
-            <li>Click the ‚öôÔ∏è gear ‚Üí <em>Project Settings</em></li>
-            <li>Scroll to <em>Your apps</em> ‚Üí click <em>&lt;/&gt; Web</em> ‚Üí Register</li>
+            <li>Click the âï¸ gear â <em>Project Settings</em></li>
+            <li>Scroll to <em>Your apps</em> â click <em>&lt;/&gt; Web</em> â Register</li>
             <li>Copy the <code>firebaseConfig</code> object shown</li>
           </ul>
         </div>
@@ -561,9 +561,9 @@ function SetupGuide() {
           <div className="sstep-num">5</div>
           <h3>Host &amp; Share the Link</h3>
           <ul>
-            <li><strong>Easiest (free, no account):</strong> go to <strong>netlify.com/drop</strong>, drag this HTML file onto the page ‚Üí instant public URL</li>
+            <li><strong>Easiest (free, no account):</strong> go to <strong>netlify.com/drop</strong>, drag this HTML file onto the page â instant public URL</li>
             <li>Paste that URL in your WhatsApp group</li>
-            <li>Each person opens it, picks their slot, and orders üéâ</li>
+            <li>Each person opens it, picks their slot, and orders ð</li>
           </ul>
         </div>
       </div>
@@ -571,27 +571,52 @@ function SetupGuide() {
   );
 }
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  LANDING SCREEN
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
-function Landing({ onCreate }) {
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function Landing({ onCreate, onJoin }) {
+  const [code, setCode] = React.useState("");
   return (
     <div>
-      <div className="main" style={{paddingTop:0}}>
-        <div className="hero">
-          <span className="em">üçΩÔ∏è</span>
-          <h1>Meal Selector</h1>
-          <p>4 people, 4 phones, 1 shared order.<br/>The coordinator creates a session and shares the link ‚Äî everyone clicks and picks their meal.</p>
+      <div className="hdr">
+        <div className="hdr-brand">Sage Villa</div>
+        <div className="hdr-title">Meal Selection</div>
+      </div>
+      <div className="main">
+        <div className="hero" style={{paddingTop:24}}>
+          <span className="em">ð½</span>
+          <h1>Group Meal Selector</h1>
+          <p>4 people, 4 phones, 1 shared order.<br/>Coordinator starts a session â everyone joins with the code.</p>
         </div>
-        <button className="btn btn-pri" onClick={onCreate}>+ Start Group Order</button>
+
+        <button className="btn btn-pri" onClick={onCreate} style={{marginBottom:16}}>+ Start New Group Order</button>
+
+        <div className="divider">or join an existing session</div>
+
+        <div className="join-row">
+          <input
+            className="join-in"
+            placeholder="ENTER CODE"
+            maxLength={6}
+            value={code}
+            onChange={e => setCode(e.target.value.toUpperCase())}
+            onKeyDown={e => e.key==="Enter" && code.length>=4 && onJoin(code)}
+          />
+          <button
+            className="join-go"
+            disabled={code.length < 4}
+            onClick={() => onJoin(code)}
+          >Join</button>
+        </div>
+        <p style={{fontSize:12,color:"var(--muted)",textAlign:"center",marginTop:10}}>Enter the 6-letter code shared by the coordinator</p>
       </div>
     </div>
   );
 }
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  SESSION SCREEN  (real-time dashboard)
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
   const [toast, showToast] = useToast();
   const people   = data?.people ? Object.values(data.people) : Array(4).fill({});
@@ -599,24 +624,33 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
   const shareUrl  = `${window.location.origin}${window.location.pathname}?s=${sessionId}`;
 
   const copyLink = () =>
-    navigator.clipboard.writeText(shareUrl).then(() => showToast("Link copied! Paste it in WhatsApp üëç"));
+    navigator.clipboard.writeText(shareUrl).then(() => showToast("Link copied! Paste it in WhatsApp ð"));
 
   const waShare = () => {
-    const msg = `üçΩÔ∏è Time to pick our meals!\n\nOpen this link on your phone:\n${shareUrl}\n\nSession code: *${sessionId}*\n\nEach person taps their slot and chooses. Takes 2 mins!`;
+    const msg = `Sage Villa - Meal Selection\n\nOpen this link on your phone:\n${shareUrl}\n\nSession code: *${sessionId}*\n\nEach person taps their slot and chooses their meal. Takes 2 mins!`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (
     <div>
       <div className="hdr">
-        <div className="hdr-brand">StayVista ‚Äî Meal Selector</div>
-        <div className="hdr-title">Group Order üçΩÔ∏è</div>
+        <div className="hdr-brand">Sage Villa â Meal Selection</div>
+        <div className="hdr-title">Group Order Â· Code: {sessionId}</div>
       </div>
       <div className="main">
 
+        {/* Session code bar */}
+        <div className="code-bar">
+          <div>
+            <div className="code-lbl">Session Code â share this with others</div>
+            <div className="code-val">{sessionId}</div>
+          </div>
+          <button className="copy-btn" onClick={copyLink}>Copy Link</button>
+        </div>
+
         {/* WhatsApp share */}
-        <button className="wa-btn np" onClick={waShare}>
-          <span>üì≤</span> Share Invite in WhatsApp Group
+        <button className="wa-btn" onClick={waShare}>
+          <span>ð²</span> Share via WhatsApp
         </button>
 
         {/* Progress */}
@@ -645,7 +679,7 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
                 <div className="pname">{p.name || `Person ${i+1}`}</div>
                 {p.mealType && <div className="psub">{MM[p.mealType].emoji} {MM[p.mealType].name}</div>}
                 <span className={`pbadge ${done?"bd":isMine?"bm":"bp"}`}>
-                  {done ? "‚úì Done" : isMine ? "Tap to order" : "Waiting‚Ä¶"}
+                  {done ? "â Done" : isMine ? "Tap to order" : "Waitingâ¦"}
                 </span>
               </div>
             );
@@ -654,11 +688,11 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
 
         {/* View summary */}
         <button className="btn btn-pri" onClick={onSummary} disabled={doneCount===0}>
-          {doneCount===4 ? "üéâ View & Share Complete Order" : `View Orders (${doneCount}/4 ready)`}
+          {doneCount===4 ? "ð View & Share Complete Order" : `View Orders (${doneCount}/4 ready)`}
         </button>
 
         <p style={{fontSize:12,color:"var(--muted)",textAlign:"center",marginTop:12}}>
-          All orders update live ‚Äî no refresh needed.
+          All orders update live â no refresh needed.
         </p>
       </div>
       {toast && <div className="toast">{toast}</div>}
@@ -666,9 +700,9 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
   );
 }
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  ORDER FLOW
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function OrderFlow({ slotIdx, existing, onSave, onBack }) {
   const [step,       setStep]       = useState("name");
   const [name,       setName]       = useState(existing?.name || "");
@@ -703,27 +737,27 @@ function OrderFlow({ slotIdx, existing, onSave, onBack }) {
     );
   });
 
-  // ‚îÄ Step: Name ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  // â Step: Name ââââââââââââââââââââââââââââââââââââââââââââââ
   if (step==="name") return (
     <div>
       <div className="hdr">
-        <button className="hdr-back" onClick={onBack}>‚Üê Back</button>
+        <button className="hdr-back" onClick={onBack}>â Back</button>
         <div className="hdr-brand">Slot {slotIdx+1}</div>
         <div className="hdr-title">What's your name?</div>
       </div>
       <div className="main">
         <input className="nin" type="text" placeholder={`Person ${slotIdx+1}`}
           value={name} onChange={e=>setName(e.target.value)} autoFocus />
-        <button className="btn btn-pri" onClick={()=>setStep("meal-type")}>Next ‚Üí</button>
+        <button className="btn btn-pri" onClick={()=>setStep("meal-type")}>Next â</button>
       </div>
     </div>
   );
 
-  // ‚îÄ Step: Meal type ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  // â Step: Meal type âââââââââââââââââââââââââââââââââââââââââ
   if (step==="meal-type") return (
     <div>
       <div className="hdr">
-        <button className="hdr-back" onClick={()=>setStep("name")}>‚Üê Back</button>
+        <button className="hdr-back" onClick={()=>setStep("name")}>â Back</button>
         <div className="hdr-brand">{name||`Person ${slotIdx+1}`}</div>
         <div className="hdr-title">Choose Your Meal</div>
       </div>
@@ -742,18 +776,18 @@ function OrderFlow({ slotIdx, existing, onSave, onBack }) {
           ))}
         </div>
         <div className="row">
-          <button className="back-sm" onClick={()=>setStep("name")}>‚Üê</button>
-          <button className="btn btn-pri" disabled={!mealType} onClick={()=>setStep("customize")}>Next ‚Üí</button>
+          <button className="back-sm" onClick={()=>setStep("name")}>â</button>
+          <button className="btn btn-pri" disabled={!mealType} onClick={()=>setStep("customize")}>Next â</button>
         </div>
       </div>
     </div>
   );
 
-  // ‚îÄ Step: Customize ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  // â Step: Customize âââââââââââââââââââââââââââââââââââââââââ
   if (step==="customize") return (
     <div>
       <div className="hdr">
-        <button className="hdr-back" onClick={()=>setStep("meal-type")}>‚Üê Back</button>
+        <button className="hdr-back" onClick={()=>setStep("meal-type")}>â Back</button>
         <div className="hdr-brand" style={{color:meta.color}}>{meta.emoji} {meta.name}</div>
         <div className="hdr-title">Make Your Picks</div>
       </div>
@@ -766,7 +800,7 @@ function OrderFlow({ slotIdx, existing, onSave, onBack }) {
             <div key={sec.id} className={`scard ${done?"ok":""}`}>
               <div className="slbl">
                 {sec.label}
-                {done && <span className="chk">‚úì</span>}
+                {done && <span className="chk">â</span>}
               </div>
               <div className="shint">
                 {sec.hint}
@@ -794,26 +828,26 @@ function OrderFlow({ slotIdx, existing, onSave, onBack }) {
         {menu.fixed && (
           <div className="scard" style={{background:"#FAFAF8"}}>
             <div className="slbl">Accompaniments</div>
-            <div className="shint">Included with your meal ‚Äî no choice needed</div>
-            <div className="fchips">{menu.fixed.map(f=><span key={f} className="fchip">‚úì {f}</span>)}</div>
+            <div className="shint">Included with your meal â no choice needed</div>
+            <div className="fchips">{menu.fixed.map(f=><span key={f} className="fchip">â {f}</span>)}</div>
           </div>
         )}
 
         <div className="row" style={{marginTop:4}}>
-          <button className="back-sm" onClick={()=>setStep("meal-type")}>‚Üê</button>
+          <button className="back-sm" onClick={()=>setStep("meal-type")}>â</button>
           <button className="btn btn-pri" disabled={!complete} onClick={()=>setStep("review")}>
-            Review Order ‚Üí
+            Review Order â
           </button>
         </div>
       </div>
     </div>
   );
 
-  // ‚îÄ Step: Review ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  // â Step: Review ââââââââââââââââââââââââââââââââââââââââââââ
   if (step==="review") return (
     <div>
       <div className="hdr">
-        <button className="hdr-back" onClick={()=>setStep("customize")}>‚Üê Edit</button>
+        <button className="hdr-back" onClick={()=>setStep("customize")}>â Edit</button>
         <div className="hdr-brand">{name||`Person ${slotIdx+1}`}</div>
         <div className="hdr-title">Review Your Order</div>
       </div>
@@ -839,15 +873,15 @@ function OrderFlow({ slotIdx, existing, onSave, onBack }) {
         {menu.fixed && (
           <div className="rrow">
             <div className="rlbl">Accompaniments (included)</div>
-            <div className="rfixed">{menu.fixed.join(" ¬∑ ")}</div>
+            <div className="rfixed">{menu.fixed.join(" Â· ")}</div>
           </div>
         )}
 
         <div className="row" style={{marginTop:20}}>
-          <button className="back-sm" onClick={()=>setStep("customize")}>‚Üê Edit</button>
+          <button className="back-sm" onClick={()=>setStep("customize")}>â Edit</button>
           <button className="btn btn-pri"
             onClick={()=>onSave({name:name||`Person ${slotIdx+1}`, mealType, selections})}>
-            Confirm ‚úì
+            Confirm â
           </button>
         </div>
       </div>
@@ -857,9 +891,9 @@ function OrderFlow({ slotIdx, existing, onSave, onBack }) {
   return null;
 }
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  SUMMARY SCREEN
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function Summary({ data, sessionId, onBack }) {
   const [tab,   setTab]   = useState("cook"); // "cook" | "persons"
   const [toast, showToast] = useToast();
@@ -869,7 +903,7 @@ function Summary({ data, sessionId, onBack }) {
   const cookText   = buildCookText(data);
 
   const copyText = () =>
-    navigator.clipboard.writeText(cookText).then(()=>showToast("Copied! Paste into WhatsApp / email üìã"));
+    navigator.clipboard.writeText(cookText).then(()=>showToast("Copied! Paste into WhatsApp / email ð"));
 
   const sendWA = () =>
     window.open(`https://wa.me/?text=${encodeURIComponent(cookText)}`, "_blank");
@@ -877,10 +911,10 @@ function Summary({ data, sessionId, onBack }) {
   return (
     <div>
       <div className="hdr np">
-        <button className="hdr-back" onClick={onBack}>‚Üê Back</button>
-        <div className="hdr-brand">Session {sessionId}</div>
+        <button className="hdr-back" onClick={onBack}>â Back</button>
+        <div className="hdr-brand">Sage Villa Â· Code: {sessionId}</div>
         <div className="hdr-title">
-          {tab === "cook" ? "üë®‚Äçüç≥ Cook's Order" : "üçΩÔ∏è Per Person"}
+          {tab === "cook" ? "Cook's Order" : "Per Person"}
         </div>
       </div>
       <div className="main">
@@ -888,19 +922,19 @@ function Summary({ data, sessionId, onBack }) {
         {/* Tabs */}
         <div className="tabs np">
           <button className={`tab ${tab==="cook"?"active":""}`} onClick={()=>setTab("cook")}>
-            üë®‚Äçüç≥ Cook's View
+            ð¨âð³ Cook's View
           </button>
           <button className={`tab ${tab==="persons"?"active":""}`} onClick={()=>setTab("persons")}>
-            üôã Per Person
+            ð Per Person
           </button>
         </div>
 
-        {/* ‚îÄ‚îÄ COOK'S VIEW: consolidated by course ‚îÄ‚îÄ */}
+        {/* ââ COOK'S VIEW: consolidated by course ââ */}
         {tab === "cook" && (
           <>
             {people.length < 4 && (
               <p style={{fontSize:13,color:"var(--muted)",textAlign:"center",marginBottom:16}}>
-                ‚è≥ {4-people.length} more order{4-people.length>1?"s":""} pending ‚Äî showing partial view
+                â³ {4-people.length} more order{4-people.length>1?"s":""} pending â showing partial view
               </p>
             )}
 
@@ -917,7 +951,7 @@ function Summary({ data, sessionId, onBack }) {
                     <span className="citem-dish">{item.dish}</span>
                     <div className="citem-right">
                       <div>
-                        <span className="citem-count">√ó {item.count}</span>
+                        <span className="citem-count">Ã {item.count}</span>
                       </div>
                       <div className="citem-who">{item.names.join(", ")}</div>
                     </div>
@@ -928,7 +962,7 @@ function Summary({ data, sessionId, onBack }) {
           </>
         )}
 
-        {/* ‚îÄ‚îÄ PER PERSON VIEW ‚îÄ‚îÄ */}
+        {/* ââ PER PERSON VIEW ââ */}
         {tab === "persons" && people.map((p, i) => {
           const m  = MM[p.mealType];
           const mn = MENU[p.mealType];
@@ -954,7 +988,7 @@ function Summary({ data, sessionId, onBack }) {
                 {mn.fixed && (
                   <div className="srow">
                     <span className="sl">Accompaniments</span>
-                    <span className="sv" style={{color:"var(--muted)",fontStyle:"italic"}}>{mn.fixed.join(" ¬∑ ")}</span>
+                    <span className="sv" style={{color:"var(--muted)",fontStyle:"italic"}}>{mn.fixed.join(" Â· ")}</span>
                   </div>
                 )}
               </div>
@@ -964,11 +998,11 @@ function Summary({ data, sessionId, onBack }) {
 
         {/* Share buttons */}
         <button className="wa-btn np" onClick={sendWA}>
-          <span>üì≤</span> Send to Cook via WhatsApp
+          <span>ð²</span> Send to Cook via WhatsApp
         </button>
         <div className="row np">
-          <button className="btn btn-out" onClick={copyText}>üìã Copy Text</button>
-          <button className="btn btn-out" onClick={()=>window.print()}>üñ®Ô∏è Print</button>
+          <button className="btn btn-out" onClick={copyText}>ð Copy Text</button>
+          <button className="btn btn-out" onClick={()=>window.print()}>ð¨ï¸ Print</button>
         </div>
       </div>
       {toast && <div className="toast">{toast}</div>}
@@ -976,9 +1010,9 @@ function Summary({ data, sessionId, onBack }) {
   );
 }
 
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  ROOT APP
-// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function App() {
   const [screen,  setScreen]  = useState("landing");
   const [sid,     setSid]     = useState(null);
@@ -1036,7 +1070,7 @@ function App() {
 
   if (NEEDS_SETUP) return <SetupGuide />;
 
-  if (screen==="landing") return <Landing onCreate={createSession} />;
+  if (screen==="landing") return <Landing onCreate={createSession} onJoin={joinSession} />;
 
   if (!sData) return <div className="loader"><div className="spin"/></div>;
 
