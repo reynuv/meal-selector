@@ -4,15 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Sage Villa Meal Selection</title>
-
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-  <!-- React + Babel -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
   <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -37,7 +33,6 @@
   }
   #root { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg); }
 
-  /* ââ Loader ââ */
   .loader { display:flex; align-items:center; justify-content:center; height:80vh; }
   .spin {
     width:36px; height:36px;
@@ -46,7 +41,6 @@
   }
   @keyframes sp { to { transform:rotate(360deg); } }
 
-  /* ââ Header ââ */
   .hdr {
     background:#fff; padding:14px 20px 12px;
     border-bottom:1px solid var(--border);
@@ -60,10 +54,8 @@
     display:flex; align-items:center; gap:4px; margin-bottom:6px;
   }
 
-  /* ââ Main ââ */
   .main { padding:20px; }
 
-  /* ââ Buttons ââ */
   .btn {
     display:block; width:100%; padding:14px 20px;
     border-radius:var(--rs); border:none;
@@ -82,7 +74,6 @@
   }
   .row .btn { flex:1; }
 
-  /* ââ Landing ââ */
   .hero { text-align:center; padding:40px 20px 24px; }
   .hero .em { font-size:52px; display:block; margin-bottom:12px; }
   .hero h1 { font-size:26px; font-weight:800; margin-bottom:8px; }
@@ -107,7 +98,6 @@
   }
   .join-go:disabled { background:#D1D5DB; cursor:not-allowed; }
 
-  /* ââ Session screen ââ */
   .code-bar {
     background:#fff; border:1.5px solid var(--border);
     border-radius:var(--rs); padding:12px 16px;
@@ -156,7 +146,6 @@
   .prog-bar { height:4px; background:var(--border); border-radius:4px; overflow:hidden; }
   .prog-fill { height:100%; background:var(--pri); border-radius:4px; transition:width .4s; }
 
-  /* ââ WhatsApp button ââ */
   .wa-btn {
     display:flex; align-items:center; justify-content:center; gap:10px;
     width:100%; padding:14px; background:#25D366; color:#fff;
@@ -165,26 +154,25 @@
   }
   .wa-btn:hover { background:#1DA856; }
 
-  /* ââ Meal type ââ */
-  .mtgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
-  .mtcard {
-    background:#fff; border:2px solid var(--border); border-radius:var(--r);
-    padding:20px 12px; text-align:center; cursor:pointer;
-    transition:all .15s; box-shadow:var(--sh);
+  /* Cuisine block ‚Äî consolidated single-page order */
+  .cuisine-block { margin-bottom:6px; }
+  .cuisine-banner {
+    display:flex; align-items:center; gap:10px;
+    padding:11px 18px; border-radius:var(--r) var(--r) 0 0;
+    color:#fff; margin-top:22px; margin-bottom:0;
   }
-  .mtcard:hover { transform:translateY(-2px); }
-  .mtcard.sel { border-width:2.5px; }
-  .mtem { font-size:38px; display:block; margin-bottom:8px; }
-  .mtnm { font-size:13px; font-weight:700; }
+  .cuisine-banner:first-of-type { margin-top:0; }
+  .cuisine-em { font-size:22px; }
+  .cuisine-nm { font-size:15px; font-weight:800; }
+  .cuisine-block > .scard:first-of-type { border-radius:0; }
 
-  /* ââ Section card ââ */
   .scard {
     background:#fff; border-radius:var(--r); padding:18px;
-    box-shadow:var(--sh); margin-bottom:14px;
+    box-shadow:var(--sh); margin-bottom:8px;
     border:1.5px solid transparent; transition:border-color .2s;
   }
   .scard.ok { border-color:var(--ok); }
-  .slbl { font-size:15px; font-weight:700; margin-bottom)3px; display:flex; align-items:center; justify-content:space-between; }
+  .slbl { font-size:15px; font-weight:700; margin-bottom:3px; display:flex; align-items:center; justify-content:space-between; }
   .slbl .chk { color:var(--ok); font-size:16px; }
   .shint { font-size:12px; color:var(--muted); margin-bottom:12px; }
   .shint .cnt { font-weight:800; }
@@ -203,15 +191,14 @@
   }
   .ibtn:hover:not(:disabled) { border-color:var(--pri); background:var(--pri-l); }
   .ibtn.ss { border-color:var(--pri); background:var(--pri-l); font-weight:700; }
-  .ibtn.ss::after { content:'â'; color:var(--pri); font-weight:900; }
+  .ibtn.ss::after { content:'‚úì'; color:var(--pri); font-weight:900; }
   .ibtn.sm { border-color:var(--ok); background:var(--ok-l); font-weight:700; }
-  .ibtn.sm::after { content:'â'; color:var(--ok); font-weight:900; }
+  .ibtn.sm::after { content:'‚úì'; color:var(--ok); font-weight:900; }
   .ibtn:disabled:not(.sm) { opacity:.3; cursor:not-allowed; }
 
   .fchips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
   .fchip { padding:4px 10px; background:#F3F4F6; border-radius:20px; font-size:12px; color:var(--muted); }
 
-  /* ââ Name input ââ */
   .nin {
     width:100%; padding:14px 16px; font-size:16px;
     border:2px solid var(--border); border-radius:var(--rs);
@@ -220,26 +207,7 @@
   .nin:focus { border-color:var(--pri); }
   .helper { font-size:14px; color:var(--muted); margin-bottom:20px; line-height:1.5; }
 
-  /* ââ Order meta bar ââ */
-  .ometa {
-    display:flex; align-items:center; gap:12px;
-    padding:14px 18px; border-radius:var(--rs);
-    color:#fff; margin-bottom:20px;
-  }
-  .ometa-em { font-size:28px; }
-  .ometa-name { font-size:16px; font-weight:800; }
-  .ometa-meal { font-size:12px; opacity:.85; }
-
-  /* ââ Review ââ */
-  .rrow {
-    background:#fff; border-radius:var(--rs);
-    padding:12px 16px; margin-bottom:8px; box-shadow:var(--sh);
-  }
-  .rlbl { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.7px; color:var(--muted); margin-bottom:4px; }
-  .rval { font-size:15px; font-weight:600; }
-  .rfixed { font-size:13px; color:var(--muted); }
-
-  /* ââ Summary ââ */
+  /* Summary */
   .sum-card { background:#fff; border-radius:var(--r); overflow:hidden; box-shadow:var(--sh); margin-bottom:16px; }
   .sum-hdr { padding:14px 18px; color:#fff; display:flex; align-items:center; gap:12px; }
   .sum-av {
@@ -249,17 +217,21 @@
     font-size:15px; font-weight:900; flex-shrink:0;
   }
   .sum-pname { font-size:16px; font-weight:800; }
-  .sum-mname { font-size:12px; opacity:.85; margin-top:1px; }
   .sum-body { padding:14px 18px; }
+  .sum-cuisine-lbl {
+    font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.8px; color:var(--muted); margin:14px 0 8px;
+    padding-bottom:4px; border-bottom:1px solid var(--border);
+  }
+  .sum-cuisine-lbl:first-child { margin-top:0; }
   .srow {
     display:flex; justify-content:space-between;
-    padding:7px 0; border-bottom:1px solid #F5F0EB; font-size:14px;
+    padding:6px 0; border-bottom:1px solid #F5F0EB; font-size:14px;
   }
   .srow:last-child { border-bottom:none; }
   .sl { color:var(--muted); font-size:12px; flex-shrink:0; max-width:38%; line-height:1.3; }
   .sv { font-weight:600; text-align:right; max-width:60%; }
 
-  /* ââ Toast ââ */
   .toast {
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
     background:#1C1C1E; color:#fff; padding:10px 22px;
@@ -268,7 +240,6 @@
   }
   @keyframes tin { from { opacity:0; transform:translateX(-50%) translateY(8px); } }
 
-  /* ââ Setup guide ââ */
   .sstep { background:#fff; border-radius:var(--r); padding:18px; margin-bottom:12px; box-shadow:var(--sh); }
   .sstep-num {
     width:28px; height:28px; border-radius:50%; background:var(--pri); color:#fff;
@@ -284,7 +255,6 @@
     font-family:monospace; line-height:1.6; white-space:pre-wrap;
   }
 
-  /* ââ Tabs ââ */
   .tabs { display:flex; gap:6px; margin-bottom:18px; }
   .tab {
     flex:1; padding:10px; border-radius:var(--rs);
@@ -294,7 +264,6 @@
   }
   .tab.active { background:var(--pri); color:#fff; border-color:var(--pri); }
 
-  /* ââ Consolidated cook view ââ */
   .cgroup { background:#fff; border-radius:var(--r); box-shadow:var(--sh); margin-bottom:14px; overflow:hidden; }
   .cgroup-hdr {
     padding:12px 16px; display:flex; align-items:center; justify-content:space-between;
@@ -332,10 +301,9 @@
 <div id="root"><div class="loader"><div class="spin"></div></div></div>
 
 <script type="text/babel">
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-//  STEP 1 â¸ Paste your Firebase config here (free account at firebase.google.com)
-//  Then host this file on Netlify Drop (netlify.com/drop) and share the URL
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  FIREBASE CONFIG
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyA1F-5X1EkUMHIxKFcdQF8YylwPHM4_p3Y",
   authDomain:        "sage-villa-meals.firebaseapp.com",
@@ -353,25 +321,25 @@ if (!NEEDS_SETUP) {
   db = firebase.database();
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 //  MENU DATA
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 const MM = {
-  indian:      { name:"Indian Meal",      emoji:"ð", color:"#C4543A" },
-  chinese:     { name:"Chinese Meal",     emoji:"ð¥¢", color:"#B82535" },
-  continental: { name:"Continental Meal", emoji:"ð", color:"#2A5FA5" },
-  barbeque:    { name:"Barbeque",         emoji:"ð¥", color:"#B55E1A" },
+  indian:      { name:"Indian",      emoji:"üçõ", color:"#C4543A" },
+  chinese:     { name:"Chinese",     emoji:"ü•¢", color:"#B82535" },
+  continental: { name:"Continental", emoji:"üåç", color:"#2A5FA5" },
+  barbeque:    { name:"Barbeque",    emoji:"üî•", color:"#B55E1A" },
 };
 
 const MENU = {
   indian: {
     sections: [
-      { id:"paneer",      label:"Veg Main â Paneer",        hint:"Choose any 1",                   type:"single",
+      { id:"paneer",      label:"Veg Main ‚Äî Paneer",       hint:"Choose any 1", type:"single",
         items:["Palak Paneer","Matar Paneer","Paneer Makhani","Paneer Lababdar","Paneer Masala","Paneer Bhurji","Kadhai Paneer"] },
-      { id:"second_main", label:"Second Main Course",        hint:"Choose any 1 â Veg or Non-Veg",  type:"single",
+      { id:"second_main", label:"Second Main Course",      hint:"Choose any 1 ‚Äî Veg or Non-Veg", type:"single",
         groups:[
-          { label:"ð¥ Veg Options",     items:["Sabzi Kolhapuri","Chana Masala","Baingan Bharta","Gobi Matar","Bharleli Vaangi","Cabbage Foogath","French Bean Thoran","Aloo Jeera","Zunka","Soyabean Matar"] },
-          { label:"ð Non-Veg Options", items:["Angari Chicken Curry","Butter Chicken","Chicken Sukha","Chicken Sagoti","Malvani Chicken","Chicken Lapeta","Chicken Masala","Methi Murgh","Lababdar Chicken"] },
+          { label:"ü•ó Veg",     items:["Sabzi Kolhapuri","Chana Masala","Baingan Bharta","Gobi Matar","Bharleli Vaangi","Cabbage Foogath","French Bean Thoran","Aloo Jeera","Zunka","Soyabean Matar"] },
+          { label:"üçó Non-Veg", items:["Angari Chicken Curry","Butter Chicken","Chicken Sukha","Chicken Sagoti","Malvani Chicken","Chicken Lapeta","Chicken Masala","Methi Murgh","Lababdar Chicken"] },
         ]},
       { id:"bread",   label:"Bread",   hint:"Choose any 1", type:"single", items:["Tawa Phulka","Chapati","Bhakri"] },
       { id:"dal",     label:"Dal",     hint:"Choose any 1", type:"single", items:["Rajma Masala","Tadka Dal","Kadhi Pakodi","Varan","Amti"] },
@@ -382,75 +350,68 @@ const MENU = {
   },
   chinese: {
     sections: [
-      { id:"soup",       label:"Soup",                      hint:"Choose any 1", type:"single", items:["Manchow Soup","Hot & Sour Soup","Sweet Corn Soup"] },
-      { id:"starter",    label:"Starter",                   hint:"Choose any 1", type:"single", items:["Crispy Chilli Potato","Veg Crispy","Corn Salt Pepper","Kung Pao Potato","Honey Chilli Potato"] },
-      { id:"veg_carb",   label:"Veg Rice or Noodles",       hint:"Choose any 1", type:"single", items:["Fried Rice","Veg Hakka Noodles"] },
-      { id:"nveg_carb",  label:"Non-Veg Rice or Noodles",   hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Fried Rice","Chicken Hakka Noodles"] },
-      { id:"main", label:"Main Course", hint:"Choose any 1", type:"single",
+      { id:"soup",      label:"Soup",                    hint:"Choose any 1", type:"single", items:["Manchow Soup","Hot & Sour Soup","Sweet Corn Soup"] },
+      { id:"starter",   label:"Starter",                 hint:"Choose any 1", type:"single", items:["Crispy Chilli Potato","Veg Crispy","Corn Salt Pepper","Kung Pao Potato","Honey Chilli Potato"] },
+      { id:"veg_carb",  label:"Veg Rice or Noodles",     hint:"Choose any 1", type:"single", items:["Fried Rice","Veg Hakka Noodles"] },
+      { id:"nveg_carb", label:"Non-Veg Rice or Noodles", hint:"Optional", type:"single", optional:true, items:["Chicken Fried Rice","Chicken Hakka Noodles"] },
+      { id:"main",      label:"Main Course",             hint:"Choose any 1", type:"single",
         groups:[
-          { label:"ð¥ Veg",     items:["Veg Manchurian Gravy","Paneer in Hot Garlic Sauce","Paneer Chilli Gravy","Stir-Fried Vegetables"] },
-          { label:"ð Non-Veg", items:["Chicken Manchurian Gravy","Chicken in Hot Garlic Sauce","Chicken Chilli Gravy","Chicken in Butter Garlic Sauce"] },
+          { label:"ü•ó Veg",     items:["Veg Manchurian Gravy","Paneer in Hot Garlic Sauce","Paneer Chilli Gravy","Stir-Fried Vegetables"] },
+          { label:"üçó Non-Veg", items:["Chicken Manchurian Gravy","Chicken in Hot Garlic Sauce","Chicken Chilli Gravy","Chicken in Butter Garlic Sauce"] },
         ]},
     ],
   },
   continental: {
     sections: [
-      { id:"soup",       label:"Soup",                hint:"Choose any 1", type:"single", items:["Tomato Basil Soup","Cream of Mushroom Soup","Cream of Veg Soup","Veg Clear Soup"] },
-      { id:"starter",    label:"Starter",             hint:"Choose any 1", type:"single", items:["Cheese Corn Balls","Fried Onion Rings"] },
-      { id:"veg_main",   label:"Veg Main Course",     hint:"Choose any 1", type:"single", items:["Veg Au Gratin","Mushroom Stroganoff"] },
-      { id:"nveg_main",  label:"Non-Veg Main Course", hint:"Choose any 1 (Optional)", type:"single", optional:true, items:["Chicken Stroganoff","Grilled Chicken with Pan Jus"] },
-      { id:"dessert",    label:"Dessert",             hint:"Choose any 1", type:"single", items:["Banoffee Pie","Fruit Custard"] },
+      { id:"soup",      label:"Soup",                hint:"Choose any 1", type:"single", items:["Tomato Basil Soup","Cream of Mushroom Soup","Cream of Veg Soup","Veg Clear Soup"] },
+      { id:"starter",   label:"Starter",             hint:"Choose any 1", type:"single", items:["Cheese Corn Balls","Fried Onion Rings"] },
+      { id:"veg_main",  label:"Veg Main Course",     hint:"Choose any 1", type:"single", items:["Veg Au Gratin","Mushroom Stroganoff"] },
+      { id:"nveg_main", label:"Non-Veg Main Course", hint:"Optional",     type:"single", optional:true, items:["Chicken Stroganoff","Grilled Chicken with Pan Jus"] },
+      { id:"dessert",   label:"Dessert",             hint:"Choose any 1", type:"single", items:["Banoffee Pie","Fruit Custard"] },
     ],
   },
   barbeque: {
     sections: [
-      { id:"type",       label:"Your Preference", hint:"Fixed main item",                    type:"single", items:["Veg (Paneer)","Non-Veg (Chicken)"] },
-      { id:"marination", label:"Marination",      hint:"Choose any 1",                       type:"single", items:["Tikka","Hariyali","Reshmi"] },
-      { id:"sides",      label:"BBQ Sides",       hint:"Choose exactly 3  (â¹100 extra each)", type:"multi3", items:["Mushroom","Baby Potato","Capsicum","Onion","Cauliflower","Corn on the Cob"] },
+      { id:"type",       label:"Your Preference", hint:"Fixed main item",                      type:"single", items:["Veg (Paneer)","Non-Veg (Chicken)"] },
+      { id:"marination", label:"Marination",      hint:"Choose any 1",                         type:"single", items:["Tikka","Hariyali","Reshmi"] },
+      { id:"sides",      label:"BBQ Sides",       hint:"Choose exactly 3 (‚Çπ100 extra each)",   type:"multi3", items:["Mushroom","Baby Potato","Capsicum","Onion","Cauliflower","Corn on the Cob"] },
     ],
     fixed:["Salad","Chutney"],
   },
 };
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 //  HELPERS
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 const PAX_COLORS = ["#E07B54","#5A8FE0","#5AB87A","#C4843A"];
 const genCode    = () => Math.random().toString(36).slice(2,8).toUpperCase();
 const initials   = s => (s||"").trim().split(" ").filter(Boolean).map(w=>w[0].toUpperCase()).join("").slice(0,2)||"?";
 
-const isComplete = (mealType, sel) => {
-  if (!mealType || !sel) return false;
-  return MENU[mealType].sections.every(s => {
-    if (s.optional) return true;
-    const v = sel[s.id];
-    return s.type === "multi3" ? Array.isArray(v) && v.length === 3 : !!v;
-  });
-};
+// selections shape: { indian: { paneer: "...", ... }, chinese: { ... }, ... }
+const anySelected = sel =>
+  Object.values(sel||{}).some(c => Object.values(c||{}).some(v => v && (Array.isArray(v) ? v.length>0 : true)));
 
-// Groups all 4 people's selections by course category, deduplicates with counts
 function buildConsolidatedOrder(data) {
   const people = data?.people
-    ? Object.values(data.people).filter(p => p.confirmed && p.mealType)
+    ? Object.values(data.people).filter(p => p.confirmed)
     : [];
 
   const GROUPS = [
-    { id:"soups",    label:"ð¥£ Soups",         sources:[{mt:"chinese",s:"soup"},{mt:"continental",s:"soup"}] },
-    { id:"starters", label:"ð¢ Starters",       sources:[{mt:"chinese",s:"starter"},{mt:"continental",s:"starter"}] },
-    { id:"main",     label:"ð Main Course",    sources:[{mt:"indian",s:"paneer"},{mt:"indian",s:"second_main"},{mt:"chinese",s:"main"},{mt:"continental",s:"veg_main"},{mt:"continental",s:"nveg_main"}] },
-    { id:"bread",    label:"ð« Breads",          sources:[{mt:"indian",s:"bread"}] },
-    { id:"dal",      label:"ð« Dal",             sources:[{mt:"indian",s:"dal"}] },
-    { id:"rice",     label:"ð Rice & Noodles", sources:[{mt:"indian",s:"rice"},{mt:"chinese",s:"veg_carb"},{mt:"chinese",s:"nveg_carb"}] },
-    { id:"dessert",  label:"ð® Desserts",        sources:[{mt:"indian",s:"dessert"},{mt:"continental",s:"dessert"}] },
-    { id:"bbq",      label:"ð¥ Barbeque",        sources:[{mt:"barbeque",s:"type"},{mt:"barbeque",s:"marination"},{mt:"barbeque",s:"sides"}] },
+    { id:"soups",    label:"ü•£ Soups",         src:[{c:"chinese",s:"soup"},{c:"continental",s:"soup"}] },
+    { id:"starters", label:"üç¢ Starters",       src:[{c:"chinese",s:"starter"},{c:"continental",s:"starter"}] },
+    { id:"main",     label:"üçõ Main Course",    src:[{c:"indian",s:"paneer"},{c:"indian",s:"second_main"},{c:"chinese",s:"main"},{c:"continental",s:"veg_main"},{c:"continental",s:"nveg_main"}] },
+    { id:"bread",    label:"ü´ì Breads",          src:[{c:"indian",s:"bread"}] },
+    { id:"dal",      label:"ü´ï Dal",             src:[{c:"indian",s:"dal"}] },
+    { id:"rice",     label:"üçö Rice & Noodles", src:[{c:"indian",s:"rice"},{c:"chinese",s:"veg_carb"},{c:"chinese",s:"nveg_carb"}] },
+    { id:"dessert",  label:"üçÆ Desserts",        src:[{c:"indian",s:"dessert"},{c:"continental",s:"dessert"}] },
+    { id:"bbq",      label:"üî• Barbeque",        src:[{c:"barbeque",s:"type"},{c:"barbeque",s:"marination"},{c:"barbeque",s:"sides"}] },
   ];
 
   return GROUPS.map(group => {
     const itemMap = {};
     people.forEach(person => {
-      group.sources.forEach(src => {
-        if (person.mealType !== src.mt) return;
-        const val = person.selections?.[src.s];
+      group.src.forEach(({c, s}) => {
+        const val = person.selections?.[c]?.[s];
         if (!val) return;
         const items = Array.isArray(val) ? val : [val];
         items.forEach(item => {
@@ -466,30 +427,27 @@ function buildConsolidatedOrder(data) {
   }).filter(g => g.items.length > 0);
 }
 
-// Consolidated cook text (grouped by course, deduped with counts)
 const buildCookText = (data) => {
   const groups = buildConsolidatedOrder(data);
   if (!groups.length) return "";
   const people = data?.people ? Object.values(data.people).filter(p => p.confirmed) : [];
   const date = new Date().toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"});
-
-  let t = `ð¨âð³ COOK'S ORDER SHEET\n${people.length} guests â ${date}\n` + "â".repeat(30) + "\n\n";
+  let t = `üë®‚Äçüç≥ COOK'S ORDER SHEET\n${people.length} guests ‚Äî ${date}\n` + "‚ïê".repeat(30) + "\n\n";
   groups.forEach(g => {
     t += `${g.label}\n`;
     g.items.forEach(item => {
-      const qty  = item.count > 1 ? ` Ã ${item.count}` : "";
-      const who  = `(${item.names.join(", ")})`;
-      t += `  â¢ ${item.dish}${qty}  ${who}\n`;
+      const qty = item.count > 1 ? ` √ó ${item.count}` : "";
+      t += `  ‚Ä¢ ${item.dish}${qty}  (${item.names.join(", ")})\n`;
     });
     t += "\n";
   });
-  t += "â".repeat(30) + "\nâ° Please confirm 72 hrs before meal time.";
+  t += "‚ïê".repeat(30) + "\n‚è∞ Please confirm 72 hrs before meal time.";
   return t;
 };
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 //  TOAST HOOK
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 const { useState, useEffect, useCallback } = React;
 
 function useToast() {
@@ -498,9 +456,9 @@ function useToast() {
   return [msg, show];
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-//  SETUP GUIDE  (shown before Firebase is configured)
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  SETUP GUIDE
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 function SetupGuide() {
   return (
     <div>
@@ -510,39 +468,34 @@ function SetupGuide() {
       </div>
       <div className="main">
         <p className="helper">
-          This app syncs orders in real-time across 4 remote phones via a free Firebase database.
-          Complete these 5 steps once â then just share a link in WhatsApp forever.
+          This app syncs orders in real-time across 4 phones via a free Firebase database.
+          Complete these 5 steps once ‚Äî then just share a link in WhatsApp forever.
         </p>
-
         <div className="sstep">
           <div className="sstep-num">1</div>
           <h3>Create a Free Firebase Project</h3>
           <ul>
-            <li>Go to <strong>firebase.google.com</strong> â <em>Get Started</em></li>
-            <li>Click <em>Add project</em> â name it anything (e.g. "meal-selector")</li>
-            <li>Disable Google Analytics â <em>Create project</em></li>
+            <li>Go to <strong>firebase.google.com</strong> ‚Üí <em>Get Started</em></li>
+            <li>Click <em>Add project</em> ‚Üí name it anything ‚Üí <em>Create project</em></li>
           </ul>
         </div>
-
         <div className="sstep">
           <div className="sstep-num">2</div>
           <h3>Enable Realtime Database</h3>
           <ul>
-            <li>Left sidebar â <em>Build â Realtime Database</em> â <em>Create Database</em></li>
-            <li>Choose any region â select <strong>Test mode</strong> â Enable</li>
+            <li>Left sidebar ‚Üí <em>Build ‚Üí Realtime Database</em> ‚Üí <em>Create Database</em></li>
+            <li>Choose any region ‚Üí select <strong>Test mode</strong> ‚Üí Enable</li>
           </ul>
         </div>
-
         <div className="sstep">
           <div className="sstep-num">3</div>
           <h3>Get Your Config</h3>
           <ul>
-            <li>Click the âï¸ gear â <em>Project Settings</em></li>
-            <li>Scroll to <em>Your apps</em> â click <em>&lt;/&gt; Web</em> â Register</li>
+            <li>Click the ‚öôÔ∏è gear ‚Üí <em>Project Settings</em></li>
+            <li>Scroll to <em>Your apps</em> ‚Üí click <em>&lt;/&gt; Web</em> ‚Üí Register</li>
             <li>Copy the <code>firebaseConfig</code> object shown</li>
           </ul>
         </div>
-
         <div className="sstep">
           <div className="sstep-num">4</div>
           <h3>Paste Config into This File</h3>
@@ -550,20 +503,18 @@ function SetupGuide() {
           <pre>{`const FIREBASE_CONFIG = {
   apiKey:      "AIzaSy...",
   authDomain:  "your-app.firebaseapp.com",
-  databaseURL: "https://your-app-default-rtdb
-               .firebaseio.com",
+  databaseURL: "https://your-app-default-rtdb.firebaseio.com",
   projectId:   "your-app",
   ...
 };`}</pre>
         </div>
-
         <div className="sstep">
           <div className="sstep-num">5</div>
           <h3>Host &amp; Share the Link</h3>
           <ul>
-            <li><strong>Easiest (free, no account):</strong> go to <strong>netlify.com/drop</strong>, drag this HTML file onto the page â instant public URL</li>
+            <li><strong>Easiest (free, no account):</strong> go to <strong>netlify.com/drop</strong>, drag this HTML file onto the page ‚Üí instant public URL</li>
             <li>Paste that URL in your WhatsApp group</li>
-            <li>Each person opens it, picks their slot, and orders ð</li>
+            <li>Each person opens it, picks their slot, and orders üéâ</li>
           </ul>
         </div>
       </div>
@@ -571,9 +522,9 @@ function SetupGuide() {
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 //  LANDING SCREEN
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 function Landing({ onCreate, onJoin }) {
   const [code, setCode] = React.useState("");
   return (
@@ -584,15 +535,12 @@ function Landing({ onCreate, onJoin }) {
       </div>
       <div className="main">
         <div className="hero" style={{paddingTop:24}}>
-          <span className="em">ð½</span>
+          <span className="em">üçΩ</span>
           <h1>Group Meal Selector</h1>
-          <p>4 people, 4 phones, 1 shared order.<br/>Coordinator starts a session â everyone joins with the code.</p>
+          <p>4 people, 4 phones, 1 shared order.<br/>Coordinator starts a session ‚Äî everyone joins with the code.</p>
         </div>
-
         <button className="btn btn-pri" onClick={onCreate} style={{marginBottom:16}}>+ Start New Group Order</button>
-
         <div className="divider">or join an existing session</div>
-
         <div className="join-row">
           <input
             className="join-in"
@@ -614,9 +562,9 @@ function Landing({ onCreate, onJoin }) {
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-//  SESSION SCREEN  (real-time dashboard)
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  SESSION SCREEN
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
   const [toast, showToast] = useToast();
   const people   = data?.people ? Object.values(data.people) : Array(4).fill({});
@@ -624,7 +572,7 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
   const shareUrl  = `${window.location.origin}${window.location.pathname}?s=${sessionId}`;
 
   const copyLink = () =>
-    navigator.clipboard.writeText(shareUrl).then(() => showToast("Link copied! Paste it in WhatsApp ð"));
+    navigator.clipboard.writeText(shareUrl).then(() => showToast("Link copied! Paste it in WhatsApp üëç"));
 
   const waShare = () => {
     const msg = `Sage Villa - Meal Selection\n\nOpen this link on your phone:\n${shareUrl}\n\nSession code: *${sessionId}*\n\nEach person taps their slot and chooses their meal. Takes 2 mins!`;
@@ -634,38 +582,33 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
   return (
     <div>
       <div className="hdr">
-        <div className="hdr-brand">Sage Villa â Meal Selection</div>
-        <div className="hdr-title">Group Order Â· Code: {sessionId}</div>
+        <div className="hdr-brand">Sage Villa ‚Äî Meal Selection</div>
+        <div className="hdr-title">Group Order ¬∑ Code: {sessionId}</div>
       </div>
       <div className="main">
-
-        {/* Session code bar */}
         <div className="code-bar">
           <div>
-            <div className="code-lbl">Session Code â share this with others</div>
+            <div className="code-lbl">Session Code ‚Äî share this with others</div>
             <div className="code-val">{sessionId}</div>
           </div>
           <button className="copy-btn" onClick={copyLink}>Copy Link</button>
         </div>
-
-        {/* WhatsApp share */}
         <button className="wa-btn" onClick={waShare}>
-          <span>ð²</span> Share via WhatsApp
+          <span>üì≤</span> Share via WhatsApp
         </button>
-
-        {/* Progress */}
         <div className="prog-wrap">
           <div className="prog-lbl">{doneCount} of 4 orders placed</div>
           <div className="prog-bar"><div className="prog-fill" style={{width:`${doneCount*25}%`}}/></div>
         </div>
-
-        {/* Person slots */}
         <div className="pgrid">
           {people.map((p, i) => {
-            const isMine   = mySlot === i;
-            const claimed  = !!p.name || !!p.reservedAt;
-            const done     = !!p.confirmed;
-            const locked   = claimed && !isMine;
+            const isMine  = mySlot === i;
+            const claimed = !!p.name || !!p.reservedAt;
+            const done    = !!p.confirmed;
+            const locked  = claimed && !isMine;
+            const cuisines = p.selections
+              ? Object.keys(p.selections).filter(k => Object.values(p.selections[k]||{}).some(v=>v))
+              : [];
             return (
               <div
                 key={i}
@@ -677,22 +620,21 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
                   {p.name ? initials(p.name) : (i+1)}
                 </div>
                 <div className="pname">{p.name || `Person ${i+1}`}</div>
-                {p.mealType && <div className="psub">{MM[p.mealType].emoji} {MM[p.mealType].name}</div>}
+                {cuisines.length > 0 && (
+                  <div className="psub">{cuisines.map(k=>MM[k].emoji).join(" ")}</div>
+                )}
                 <span className={`pbadge ${done?"bd":isMine?"bm":"bp"}`}>
-                  {done ? "â Done" : isMine ? "Tap to order" : "Waitingâ¦"}
+                  {done ? "‚úì Done" : isMine ? "Tap to order" : "Waiting‚Ä¶"}
                 </span>
               </div>
             );
           })}
         </div>
-
-        {/* View summary */}
         <button className="btn btn-pri" onClick={onSummary} disabled={doneCount===0}>
-          {doneCount===4 ? "ð View & Share Complete Order" : `View Orders (${doneCount}/4 ready)`}
+          {doneCount===4 ? "üéâ View & Share Complete Order" : `View Orders (${doneCount}/4 ready)`}
         </button>
-
         <p style={{fontSize:12,color:"var(--muted)",textAlign:"center",marginTop:12}}>
-          All orders update live â no refresh needed.
+          All orders update live ‚Äî no refresh needed.
         </p>
       </div>
       {toast && <div className="toast">{toast}</div>}
@@ -700,210 +642,146 @@ function Session({ sessionId, data, mySlot, onClaim, onSummary }) {
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-//  ORDER FLOW
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
+//  ORDER FLOW  ‚Äî name ‚Üí all cuisines on one page
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 function OrderFlow({ slotIdx, existing, onSave, onBack }) {
   const [step,       setStep]       = useState("name");
   const [name,       setName]       = useState(existing?.name || "");
-  const [mealType,   setMealType]   = useState(existing?.mealType || null);
+  // selections: { indian: { paneer: "Palak Paneer", ... }, chinese: { soup: "..." }, ... }
   const [selections, setSelections] = useState(existing?.selections || {});
 
-  const meta     = mealType ? MM[mealType]   : null;
-  const menu     = mealType ? MENU[mealType] : null;
-  const complete = isComplete(mealType, selections);
+  const setItem = (cuisine, secId, v) =>
+    setSelections(prev => ({ ...prev, [cuisine]: { ...(prev[cuisine]||{}), [secId]: v } }));
 
-  const setItem = (id, v) => setSelections(prev => ({...prev, [id]:v}));
-
-  const handleItemClick = (sec, item) => {
+  const handleItemClick = (cuisine, sec, item) => {
     if (sec.type === "multi3") {
-      const cur = selections[sec.id] || [];
-      setItem(sec.id, cur.includes(item) ? cur.filter(x=>x!==item) : cur.length<3 ? [...cur,item] : cur);
+      const cur = selections[cuisine]?.[sec.id] || [];
+      setItem(cuisine, sec.id, cur.includes(item) ? cur.filter(x=>x!==item) : cur.length<3 ? [...cur,item] : cur);
     } else {
-      setItem(sec.id, item);
+      setItem(cuisine, sec.id, item);
     }
   };
 
-  const renderItems = (sec, items) => items.map(item => {
-    const v    = selections[sec.id];
-    const isSel = sec.type==="multi3" ? (v||[]).includes(item) : v===item;
+  const renderItems = (cuisine, sec, items) => items.map(item => {
+    const v      = selections[cuisine]?.[sec.id];
+    const isSel  = sec.type==="multi3" ? (v||[]).includes(item) : v===item;
     const isFull = sec.type==="multi3" && (v||[]).length>=3;
     return (
       <button key={item}
         className={`ibtn ${isSel ? (sec.type==="multi3"?"sm":"ss") : ""}`}
-        onClick={() => handleItemClick(sec, item)}
+        onClick={() => handleItemClick(cuisine, sec, item)}
         disabled={sec.type==="multi3" && isFull && !isSel}
       >{item}</button>
     );
   });
 
-  // â Step: Name ââââââââââââââââââââââââââââââââââââââââââââââ
-  if (step==="name") return (
+  const canConfirm = name.trim().length > 0 && anySelected(selections);
+
+  // ‚îÄ Step: Name ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  if (step === "name") return (
     <div>
       <div className="hdr">
-        <button className="hdr-back" onClick={onBack}>â Back</button>
+        <button className="hdr-back" onClick={onBack}>‚Üê Back</button>
         <div className="hdr-brand">Slot {slotIdx+1}</div>
         <div className="hdr-title">What's your name?</div>
       </div>
       <div className="main">
         <input className="nin" type="text" placeholder={`Person ${slotIdx+1}`}
           value={name} onChange={e=>setName(e.target.value)} autoFocus />
-        <button className="btn btn-pri" onClick={()=>setStep("meal-type")}>Next â</button>
+        <button className="btn btn-pri" onClick={()=>setStep("picks")}>Next ‚Üí</button>
       </div>
     </div>
   );
 
-  // â Step: Meal type âââââââââââââââââââââââââââââââââââââââââ
-  if (step==="meal-type") return (
+  // ‚îÄ Step: All cuisines on one page ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
+  return (
     <div>
       <div className="hdr">
-        <button className="hdr-back" onClick={()=>setStep("name")}>â Back</button>
+        <button className="hdr-back" onClick={()=>setStep("name")}>‚Üê Back</button>
         <div className="hdr-brand">{name||`Person ${slotIdx+1}`}</div>
-        <div className="hdr-title">Choose Your Meal</div>
-      </div>
-      <div className="main">
-        <p className="helper">Which cuisine would you like today?</p>
-        <div className="mtgrid">
-          {Object.entries(MM).map(([k,m]) => (
-            <div key={k}
-              className={`mtcard ${mealType===k?"sel":""}`}
-              style={mealType===k ? {borderColor:m.color, background:`${m.color}12`} : {}}
-              onClick={()=>{ setMealType(k); setSelections({}); }}
-            >
-              <span className="mtem">{m.emoji}</span>
-              <div className="mtnm">{m.name}</div>
-            </div>
-          ))}
-        </div>
-        <div className="row">
-          <button className="back-sm" onClick={()=>setStep("name")}>â</button>
-          <button className="btn btn-pri" disabled={!mealType} onClick={()=>setStep("customize")}>Next â</button>
-        </div>
-      </div>
-    </div>
-  );
-
-  // â Step: Customize âââââââââââââââââââââââââââââââââââââââââ
-  if (step==="customize") return (
-    <div>
-      <div className="hdr">
-        <button className="hdr-back" onClick={()=>setStep("meal-type")}>â Back</button>
-        <div className="hdr-brand" style={{color:meta.color}}>{meta.emoji} {meta.name}</div>
         <div className="hdr-title">Make Your Picks</div>
       </div>
       <div className="main">
+        <p className="helper" style={{marginBottom:4}}>Select from any cuisine below. Pick as many as you like.</p>
 
-        {menu.sections.map(sec => {
-          const v    = selections[sec.id];
-          const done = sec.type==="multi3" ? Array.isArray(v)&&v.length===3 : !!v;
+        {Object.entries(MENU).map(([cuisine, menuData]) => {
+          const m = MM[cuisine];
           return (
-            <div key={sec.id} className={`scard ${done?"ok":""}`}>
-              <div className="slbl">
-                {sec.label}
-                {done && <span className="chk">â</span>}
+            <div key={cuisine} className="cuisine-block">
+              <div className="cuisine-banner" style={{background:m.color}}>
+                <span className="cuisine-em">{m.emoji}</span>
+                <span className="cuisine-nm">{m.name}</span>
               </div>
-              <div className="shint">
-                {sec.hint}
-                {sec.type==="multi3" && (
-                  <span className="cnt" style={{color:(v||[]).length===3?"var(--ok)":"inherit"}}>
-                    {" "}({(v||[]).length}/3)
-                  </span>
-                )}
-              </div>
-              <div className="ilist">
-                {sec.groups
-                  ? sec.groups.map(g => (
-                      <div key={g.label}>
-                        <div className="glbl">{g.label}</div>
-                        {renderItems(sec, g.items)}
-                      </div>
-                    ))
-                  : renderItems(sec, sec.items)
-                }
-              </div>
+
+              {menuData.sections.map(sec => {
+                const v    = selections[cuisine]?.[sec.id];
+                const done = sec.type==="multi3" ? Array.isArray(v)&&v.length===3 : !!v;
+                return (
+                  <div key={sec.id} className={`scard ${done?"ok":""}`}>
+                    <div className="slbl">
+                      {sec.label}
+                      {done && <span className="chk">‚úì</span>}
+                    </div>
+                    <div className="shint">
+                      {sec.hint}
+                      {sec.type==="multi3" && (
+                        <span className="cnt" style={{color:(v||[]).length===3?"var(--ok)":"inherit"}}>
+                          {" "}({(v||[]).length}/3)
+                        </span>
+                      )}
+                    </div>
+                    <div className="ilist">
+                      {sec.groups
+                        ? sec.groups.map(g => (
+                            <div key={g.label}>
+                              <div className="glbl">{g.label}</div>
+                              {renderItems(cuisine, sec, g.items)}
+                            </div>
+                          ))
+                        : renderItems(cuisine, sec, sec.items)
+                      }
+                    </div>
+                  </div>
+                );
+              })}
+
+              {menuData.fixed && (
+                <div className="scard" style={{background:"#FAFAF8",marginBottom:4}}>
+                  <div className="slbl">Accompaniments</div>
+                  <div className="shint">Included ‚Äî no choice needed</div>
+                  <div className="fchips">{menuData.fixed.map(f=><span key={f} className="fchip">‚úì {f}</span>)}</div>
+                </div>
+              )}
             </div>
           );
         })}
 
-        {menu.fixed && (
-          <div className="scard" style={{background:"#FAFAF8"}}>
-            <div className="slbl">Accompaniments</div>
-            <div className="shint">Included with your meal â no choice needed</div>
-            <div className="fchips">{menu.fixed.map(f=><span key={f} className="fchip">â {f}</span>)}</div>
-          </div>
-        )}
-
-        <div className="row" style={{marginTop:4}}>
-          <button className="back-sm" onClick={()=>setStep("meal-type")}>â</button>
-          <button className="btn btn-pri" disabled={!complete} onClick={()=>setStep("review")}>
-            Review Order â
+        <div style={{marginTop:20}}>
+          <button className="btn btn-pri" disabled={!canConfirm}
+            onClick={() => onSave({name: name||`Person ${slotIdx+1}`, selections})}>
+            Confirm ‚úì
           </button>
         </div>
+        <div style={{height:20}}/>
       </div>
     </div>
   );
-
-  // â Step: Review ââââââââââââââââââââââââââââââââââââââââââââ
-  if (step==="review") return (
-    <div>
-      <div className="hdr">
-        <button className="hdr-back" onClick={()=>setStep("customize")}>â Edit</button>
-        <div className="hdr-brand">{name||`Person ${slotIdx+1}`}</div>
-        <div className="hdr-title">Review Your Order</div>
-      </div>
-      <div className="main">
-        <div className="ometa" style={{background:meta.color}}>
-          <span className="ometa-em">{meta.emoji}</span>
-          <div>
-            <div className="ometa-name">{name||`Person ${slotIdx+1}`}</div>
-            <div className="ometa-meal">{meta.name}</div>
-          </div>
-        </div>
-
-        {menu.sections.map(sec => {
-          const v = selections[sec.id];
-          return (
-            <div key={sec.id} className="rrow">
-              <div className="rlbl">{sec.label}</div>
-              <div className="rval">{Array.isArray(v) ? v.join(", ") : v}</div>
-            </div>
-          );
-        })}
-
-        {menu.fixed && (
-          <div className="rrow">
-            <div className="rlbl">Accompaniments (included)</div>
-            <div className="rfixed">{menu.fixed.join(" Â· ")}</div>
-          </div>
-        )}
-
-        <div className="row" style={{marginTop:20}}>
-          <button className="back-sm" onClick={()=>setStep("customize")}>â Edit</button>
-          <button className="btn btn-pri"
-            onClick={()=>onSave({name:name||`Person ${slotIdx+1}`, mealType, selections})}>
-            Confirm â
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
-  return null;
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 //  SUMMARY SCREEN
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 function Summary({ data, sessionId, onBack }) {
-  const [tab,   setTab]   = useState("cook"); // "cook" | "persons"
+  const [tab,   setTab]   = useState("cook");
   const [toast, showToast] = useToast();
 
-  const people     = data?.people ? Object.values(data.people).filter(p=>p.confirmed&&p.mealType) : [];
-  const groups     = buildConsolidatedOrder(data);
-  const cookText   = buildCookText(data);
+  const people   = data?.people ? Object.values(data.people).filter(p=>p.confirmed) : [];
+  const groups   = buildConsolidatedOrder(data);
+  const cookText = buildCookText(data);
 
   const copyText = () =>
-    navigator.clipboard.writeText(cookText).then(()=>showToast("Copied! Paste into WhatsApp / email ð"));
+    navigator.clipboard.writeText(cookText).then(()=>showToast("Copied! Paste into WhatsApp / email üìã"));
 
   const sendWA = () =>
     window.open(`https://wa.me/?text=${encodeURIComponent(cookText)}`, "_blank");
@@ -911,33 +789,30 @@ function Summary({ data, sessionId, onBack }) {
   return (
     <div>
       <div className="hdr np">
-        <button className="hdr-back" onClick={onBack}>â Back</button>
-        <div className="hdr-brand">Sage Villa Â· Code: {sessionId}</div>
+        <button className="hdr-back" onClick={onBack}>‚Üê Back</button>
+        <div className="hdr-brand">Sage Villa ¬∑ Code: {sessionId}</div>
         <div className="hdr-title">
           {tab === "cook" ? "Cook's Order" : "Per Person"}
         </div>
       </div>
       <div className="main">
 
-        {/* Tabs */}
         <div className="tabs np">
           <button className={`tab ${tab==="cook"?"active":""}`} onClick={()=>setTab("cook")}>
-            ð¨âð³ Cook's View
+            üë®‚Äçüç≥ Cook's View
           </button>
           <button className={`tab ${tab==="persons"?"active":""}`} onClick={()=>setTab("persons")}>
-            ð Per Person
+            üòã Per Person
           </button>
         </div>
 
-        {/* ââ COOK'S VIEW: consolidated by course ââ */}
         {tab === "cook" && (
           <>
             {people.length < 4 && (
               <p style={{fontSize:13,color:"var(--muted)",textAlign:"center",marginBottom:16}}>
-                â³ {4-people.length} more order{4-people.length>1?"s":""} pending â showing partial view
+                ‚è≥ {4-people.length} more order{4-people.length>1?"s":""} pending ‚Äî showing partial view
               </p>
             )}
-
             {groups.map(group => (
               <div key={group.id} className="cgroup">
                 <div className="cgroup-hdr">
@@ -950,9 +825,7 @@ function Summary({ data, sessionId, onBack }) {
                   <div key={i} className="citem">
                     <span className="citem-dish">{item.dish}</span>
                     <div className="citem-right">
-                      <div>
-                        <span className="citem-count">Ã {item.count}</span>
-                      </div>
+                      <div><span className="citem-count">√ó {item.count}</span></div>
                       <div className="citem-who">{item.names.join(", ")}</div>
                     </div>
                   </div>
@@ -962,47 +835,42 @@ function Summary({ data, sessionId, onBack }) {
           </>
         )}
 
-        {/* ââ PER PERSON VIEW ââ */}
-        {tab === "persons" && people.map((p, i) => {
-          const m  = MM[p.mealType];
-          const mn = MENU[p.mealType];
-          return (
-            <div key={i} className="sum-card">
-              <div className="sum-hdr" style={{background:m.color}}>
-                <div className="sum-av">{initials(p.name)}</div>
-                <div>
-                  <div className="sum-pname">{p.name}</div>
-                  <div className="sum-mname">{m.emoji} {m.name}</div>
-                </div>
-              </div>
-              <div className="sum-body">
-                {mn.sections.map(sec => {
-                  const v = p.selections?.[sec.id];
-                  return (
-                    <div key={sec.id} className="srow">
-                      <span className="sl">{sec.label}</span>
-                      <span className="sv">{Array.isArray(v) ? v.join(", ") : v}</span>
-                    </div>
-                  );
-                })}
-                {mn.fixed && (
-                  <div className="srow">
-                    <span className="sl">Accompaniments</span>
-                    <span className="sv" style={{color:"var(--muted)",fontStyle:"italic"}}>{mn.fixed.join(" Â· ")}</span>
-                  </div>
-                )}
-              </div>
+        {tab === "persons" && people.map((p, i) => (
+          <div key={i} className="sum-card">
+            <div className="sum-hdr" style={{background:PAX_COLORS[i]||"#888"}}>
+              <div className="sum-av">{initials(p.name)}</div>
+              <div className="sum-pname">{p.name}</div>
             </div>
-          );
-        })}
+            <div className="sum-body">
+              {Object.entries(MENU).map(([cuisine, menuData]) => {
+                const cuisineSel = p.selections?.[cuisine];
+                if (!cuisineSel || !Object.values(cuisineSel).some(v=>v)) return null;
+                return (
+                  <div key={cuisine}>
+                    <div className="sum-cuisine-lbl">{MM[cuisine].emoji} {MM[cuisine].name}</div>
+                    {menuData.sections.map(sec => {
+                      const v = cuisineSel[sec.id];
+                      if (!v) return null;
+                      return (
+                        <div key={sec.id} className="srow">
+                          <span className="sl">{sec.label}</span>
+                          <span className="sv">{Array.isArray(v) ? v.join(", ") : v}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
 
-        {/* Share buttons */}
         <button className="wa-btn np" onClick={sendWA}>
-          <span>ð²</span> Send to Cook via WhatsApp
+          <span>üì≤</span> Send to Cook via WhatsApp
         </button>
         <div className="row np">
-          <button className="btn btn-out" onClick={copyText}>ð Copy Text</button>
-          <button className="btn btn-out" onClick={()=>window.print()}>ð¨ï¸ Print</button>
+          <button className="btn btn-out" onClick={copyText}>üìã Copy Text</button>
+          <button className="btn btn-out" onClick={()=>window.print()}>üñ®Ô∏è Print</button>
         </div>
       </div>
       {toast && <div className="toast">{toast}</div>}
@@ -1010,16 +878,15 @@ function Summary({ data, sessionId, onBack }) {
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 //  ROOT APP
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê‚ïê
 function App() {
   const [screen,  setScreen]  = useState("landing");
   const [sid,     setSid]     = useState(null);
   const [sData,   setSData]   = useState(null);
   const [mySlot,  setMySlot]  = useState(null);
 
-  // Parse ?s= from URL
   useEffect(() => {
     const s = new URLSearchParams(window.location.search).get("s");
     if (s) {
@@ -1031,7 +898,6 @@ function App() {
     }
   }, []);
 
-  // Firebase listener
   useEffect(() => {
     if (!sid || !db) return;
     const ref = db.ref(`sessions/${sid}`);
@@ -1041,7 +907,7 @@ function App() {
 
   const createSession = () => {
     const code = genCode();
-    const init = Object.fromEntries([0,1,2,3].map(i=>[i,{name:"",mealType:null,selections:{},confirmed:false}]));
+    const init = Object.fromEntries([0,1,2,3].map(i=>[i,{name:"",selections:{},confirmed:false}]));
     db.ref(`sessions/${code}`).set({createdAt:Date.now(), people:init});
     setSid(code);
     window.history.pushState({}, "", `?s=${code}`);
